@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React from "react";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { Button, StyledEngineProvider, Switch } from "@mui/material";
-import theme from "@/app/theme";
+import React from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { StyledEngineProvider } from '@mui/material';
+import theme from '@/app/theme';
 
 export default function Home() {
   return (
