@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Slider, StyledEngineProvider } from '@mui/material';
+import { Button, StyledEngineProvider } from '@mui/material';
+import Book from '@mui/icons-material/Book';
 import theme from '@/app/theme';
 
 import SpellEffectSelector from '@/components/SpellEffectSelector';
@@ -13,20 +14,34 @@ import { type SpellEffectDefinition } from '@/utils/spellEffectUtils';
 import { useSpellStore } from '@/data/spellStore';
 import ActiveSpellEffects from '@/components/ActiveSpellEffects';
 import ActiveSpellSummary from '@/components/ActiveSpellSummary';
+import CharacterSkillsDrawer from '@/components/CharacterSkillsDrawer';
 
 export default function Home() {
   const {
     actions: { addSpellEffect },
   } = useSpellStore();
   const [isAddSpellEffectOpen, setIsAddSpellEffectOpen] = useState(false);
+  const [isCharacterSkillsOpen, setIsCharacterSkillsOpen] = useState(false);
   const [selectedEffect, setSelectedEffect] = useState<SpellEffectDefinition | null>(null);
-  const [skill, setSkill] = useState(100);
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="flex h-screen flex-col place-items-center overflow-y-auto bg-inherit">
           <h1 className="absolute items-center text-lg">Oblivion Spell Altar</h1>
+          <div className="flex w-full max-w-md flex-row justify-between pl-2 pt-6 sm:pt-2">
+            <Button
+              variant="contained"
+              aria-label="Adjust your skills"
+              onClick={() => {
+                setIsCharacterSkillsOpen(true);
+              }}
+            >
+              <Book />
+              <div className="hidden sm:block">&nbsp;Skills</div>
+            </Button>
+          </div>
+
           <div className="pt-4">
             <SpellEffectSelector
               onEffectSelect={(effect) => {
@@ -36,26 +51,11 @@ export default function Home() {
             />
 
             <ActiveSpellEffects />
-            <ActiveSpellSummary skill={skill} />
-
-            <div className="w-full max-w-md p-8 shadow-sm">
-              <div className="mb-1 flex justify-between">
-                <label>Skill Level</label>
-                <span>{skill}</span>
-              </div>
-              <Slider
-                value={skill}
-                aria-label="Magnitude"
-                onChange={(_, val) => setSkill(val as number)}
-                min={1}
-                max={100}
-              />
-            </div>
+            <ActiveSpellSummary />
 
             {selectedEffect && (
               <AddSpellEffectDialog
                 effect={selectedEffect}
-                skill={skill}
                 open={isAddSpellEffectOpen}
                 onClose={() => setIsAddSpellEffectOpen(false)}
                 onSpellEffectConfirmed={(effect) => {
@@ -64,6 +64,11 @@ export default function Home() {
                 }}
               />
             )}
+
+            <CharacterSkillsDrawer
+              open={isCharacterSkillsOpen}
+              onClose={() => setIsCharacterSkillsOpen(false)}
+            />
           </div>
         </div>
       </ThemeProvider>

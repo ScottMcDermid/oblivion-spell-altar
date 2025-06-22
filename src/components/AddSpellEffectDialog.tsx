@@ -32,7 +32,6 @@ import ToggleButtons from '@/components/ToggleButtons';
 
 export default function SpellEffectDialog(props: {
   effect: SpellEffectDefinition;
-  skill: number;
   open: boolean;
   onClose: () => void;
   onSpellEffectConfirmed: (effect: SpellEffect) => void;
@@ -50,9 +49,8 @@ export default function SpellEffectDialog(props: {
         magnitude,
         area,
         duration,
-        skill: props.skill,
       }),
-    [props.effect.baseCost, range, magnitude, area, duration, props.skill],
+    [props.effect.baseCost, range, magnitude, area, duration],
   );
 
   const goldCost = useMemo(() => getGoldCost(magickaCost), [magickaCost]);
@@ -60,7 +58,13 @@ export default function SpellEffectDialog(props: {
   return (
     <Dialog
       className="min-w-64"
-      onClose={() => props.onClose()}
+      onClose={() => {
+        setMagnitude(MIN_MAGNITUDE);
+        setArea(MIN_AREA);
+        setDuration(MIN_DURATION);
+        setRange('Touch');
+        props.onClose();
+      }}
       open={props.open}
       keepMounted={false}
       TransitionProps={{
@@ -69,7 +73,13 @@ export default function SpellEffectDialog(props: {
     >
       <IconButton
         aria-label="close"
-        onClick={props.onClose}
+        onClick={() => {
+          setMagnitude(MIN_MAGNITUDE);
+          setArea(MIN_AREA);
+          setDuration(MIN_DURATION);
+          setRange('Touch');
+          props.onClose();
+        }}
         sx={{
           position: 'absolute',
           right: 8,
@@ -137,7 +147,7 @@ export default function SpellEffectDialog(props: {
             </div>
           </Tooltip>
 
-          <Tooltip title="Gold/Barter Cost">
+          <Tooltip title="Gold Cost">
             <div className="flex items-center gap-1">
               <AttachMoney fontSize="small" />
               <span>{Intl.NumberFormat().format(goldCost)}</span>
@@ -148,7 +158,11 @@ export default function SpellEffectDialog(props: {
       <DialogActions className="space-between flex">
         <Button
           variant="contained"
-          onClick={() =>
+          onClick={() => {
+            setMagnitude(MIN_MAGNITUDE);
+            setArea(MIN_AREA);
+            setDuration(MIN_DURATION);
+            setRange('Touch');
             props.onSpellEffectConfirmed({
               id: props.effect.id,
               range,
@@ -157,10 +171,10 @@ export default function SpellEffectDialog(props: {
               duration,
               magickaCost,
               goldCost,
-            })
-          }
+            });
+          }}
         >
-          Confirm Effect
+          Add Spell Effect
         </Button>
       </DialogActions>
     </Dialog>

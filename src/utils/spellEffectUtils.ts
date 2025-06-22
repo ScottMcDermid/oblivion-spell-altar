@@ -4,8 +4,16 @@ export type School =
   | 'Destruction'
   | 'Illusion'
   | 'Mysticism'
-  | 'Restoration'
-  | 'Special';
+  | 'Restoration';
+
+export const schools: School[] = [
+  'Alteration',
+  'Conjuration',
+  'Destruction',
+  'Illusion',
+  'Mysticism',
+  'Restoration',
+];
 
 export type SpellEffectRange = 'Self' | 'Touch' | 'Target';
 
@@ -95,7 +103,6 @@ export type SpellEffectName =
   | 'Shock Shield'
   | 'Silence'
   | 'Soul Trap'
-  | 'Special Spell Effects'
   | 'Spell Absorption'
   | 'Summon Ancestor Guardian'
   | 'Summon Bear'
@@ -220,7 +227,6 @@ export type SpellEffectDefinitionId =
   | 'OPEN'
   | 'PARA'
   | 'RALY'
-  | 'REAN'
   | 'REAT'
   | 'REDG'
   | 'REFA'
@@ -746,15 +752,6 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 0,
     description: "Increase target's Confidence (willingness to attack).",
   },
-  REAN: {
-    id: 'REAN',
-    school: 'Special',
-    name: 'Reanimate',
-    baseCost: 10,
-    barterFactor: 0,
-    description:
-      'Brings a dead NPC back to life, and allies them with the caster. Used by Staff of Worms, and the Risen FleshSI Greater Power.',
-  },
   REAT: {
     id: 'REAT',
     school: 'Restoration',
@@ -1268,25 +1265,27 @@ export function getMagickaCost({
   magnitude,
   duration,
   area,
-  skill,
 }: {
   baseCost: number;
   range: SpellEffectRange | null;
   magnitude: number;
   duration: number;
   area: number;
-  skill: number;
 }): number {
   const B = baseCost / 10;
   const M = Math.max(magnitude ** 1.28, 1);
   const D = Math.max(duration, 1);
   const A = Math.max(area * 0.15, 1);
   const rangeMultiplier = range === 'Target' ? 1.5 : 1;
-  const skillMultiplier = 1.4 - 0.012 * skill;
-  return Math.max(Math.floor(rangeMultiplier * B * M * D * A * skillMultiplier), 1);
+  return Math.max(Math.floor(rangeMultiplier * B * M * D * A), 1);
 }
 
 export const SEPTIM_MULTIPLIER = 3;
 export function getGoldCost(magickaCost: number): number {
   return magickaCost * SEPTIM_MULTIPLIER;
+}
+
+export function applySkillMultiplier(magickaCost: number, skill: number) {
+  const skillMultiplier = 1.4 - 0.012 * skill;
+  return Math.max(Math.floor(magickaCost * skillMultiplier), 1);
 }

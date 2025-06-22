@@ -36,7 +36,10 @@ export default function SpellEffectSelector({
               key={effect.id}
               variant="outlined"
               fullWidth
-              onClick={() => onEffectSelect(effect)}
+              onClick={() => {
+                setSearch('');
+                onEffectSelect(effect);
+              }}
               className="justify-start text-left normal-case"
             >
               <div className="flex w-full items-center gap-3 px-1 py-2">
