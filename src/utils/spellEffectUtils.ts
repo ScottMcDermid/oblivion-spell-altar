@@ -15,6 +15,8 @@ export const schools: School[] = [
   'Restoration',
 ];
 
+export type Mastery = 'Novice' | 'Apprentice' | 'Journeyman' | 'Expert' | 'Master';
+
 export type SpellEffectRange = 'Self' | 'Touch' | 'Target';
 
 export const MIN_MAGNITUDE = 3;
@@ -1254,7 +1256,6 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
 export const spellEffectDefinitions: SpellEffectDefinition[] = Object.values(
   spellEffectDefinitionById,
 ).sort((a, b) => {
-  if (a.school !== b.school) return a.school.localeCompare(b.school);
   return a.name.localeCompare(b.name);
 });
 
@@ -1277,7 +1278,7 @@ export function getMagickaCost({
   const D = Math.max(duration, 1);
   const A = Math.max(area * 0.15, 1);
   const rangeMultiplier = range === 'Target' ? 1.5 : 1;
-  return Math.max(Math.floor(rangeMultiplier * B * M * D * A), 1);
+  return Math.max(rangeMultiplier * B * M * D * A, 1);
 }
 
 export const SEPTIM_MULTIPLIER = 3;
@@ -1285,7 +1286,24 @@ export function getGoldCost(magickaCost: number): number {
   return magickaCost * SEPTIM_MULTIPLIER;
 }
 
-export function applySkillMultiplier(magickaCost: number, skill: number) {
-  const skillMultiplier = 1.4 - 0.012 * skill;
+export function applySkillMultiplier(magickaCost: number, skill: number, luck: number): number {
+  const luckAdjustedSkill = Math.min(skill + 0.4 * (luck - 50), 100);
+  const skillMultiplier = 1.4 - 0.012 * luckAdjustedSkill;
   return Math.max(Math.floor(magickaCost * skillMultiplier), 1);
+}
+
+export function getMasteryFromMagickaCost(magickaCost: number): Mastery {
+  if (magickaCost < 26) return 'Novice';
+  if (magickaCost < 63) return 'Apprentice';
+  if (magickaCost < 150) return 'Journeyman';
+  if (magickaCost < 400) return 'Expert';
+  return 'Master';
+}
+
+export function getMinLevelForMastery(mastery: Mastery): number {
+  if (mastery === 'Novice') return 0;
+  if (mastery === 'Apprentice') return 25;
+  if (mastery === 'Journeyman') return 50;
+  if (mastery === 'Expert') return 75;
+  return 100;
 }

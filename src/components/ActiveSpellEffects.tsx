@@ -24,6 +24,10 @@ export default function ActiveSpellEffects() {
           <span className="text-right">Range</span>
           <span></span>
         </div>
+        {addedEffects.length === 0 && (
+          <div className="items-center py-2 text-sm last:border-b-0">No Active Effects</div>
+        )}
+
         {addedEffects.map((effect) => (
           <div
             key={effect.id}

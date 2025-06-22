@@ -5,13 +5,15 @@ import {
   SpellEffect,
   spellEffectDefinitionById,
   applySkillMultiplier,
+  getMasteryFromMagickaCost,
+  getMinLevelForMastery,
 } from '@/utils/spellEffectUtils';
 import { Divider, Tooltip } from '@mui/material';
 import FlashOn from '@mui/icons-material/FlashOn';
 import AttachMoney from '@mui/icons-material/AttachMoney';
 
 export default function ActiveSpellEffects() {
-  const { addedEffects, skills } = useSpellStore();
+  const { addedEffects, skills, luck } = useSpellStore();
 
   const school = useMemo<School | null>(() => {
     const maxEffect = addedEffects.reduce<SpellEffect | undefined>(
@@ -29,11 +31,15 @@ export default function ActiveSpellEffects() {
           applySkillMultiplier(
             effect.magickaCost,
             skills[spellEffectDefinitionById[effect.id].school],
+            luck,
           ),
         0,
       ),
-    [addedEffects, skills],
+    [addedEffects, skills, luck],
   );
+
+  const mastery = useMemo(() => getMasteryFromMagickaCost(magickaCost), [magickaCost]);
+  const minLevel = useMemo(() => getMinLevelForMastery(mastery), [mastery]);
 
   const goldCost = useMemo(
     () => addedEffects.reduce((goldCost, effect) => goldCost + effect.goldCost, 0),
@@ -42,9 +48,15 @@ export default function ActiveSpellEffects() {
 
   return (
     <div className="w-full max-w-md shadow-sm">
-      <h2 className="text-md mb-1 text-center font-semibold">Summary</h2>
       <Divider />
-      {school && <div className="mt-4 flex items-center justify-end gap-4 text-lg">{school}</div>}
+      {school && (
+        <div className="mt-4 flex items-center justify-end gap-4 text-lg">
+          {school} {mastery}
+        </div>
+      )}
+      {minLevel > 0 && (
+        <div className="flex items-center justify-end gap-4 text-sm">Level {minLevel}</div>
+      )}
       <div className="mt-4 flex justify-end gap-4 text-lg">
         <div className="mt-4 flex items-center gap-4 text-lg">
           <Tooltip title="Magicka Cost">

@@ -26,9 +26,12 @@ import {
   type SpellEffect,
   type SpellEffectDefinition,
   type SpellEffectRange,
+  applySkillMultiplier,
+  spellEffectDefinitionById,
 } from '@/utils/spellEffectUtils';
 
 import ToggleButtons from '@/components/ToggleButtons';
+import { useSpellStore } from '@/data/spellStore';
 
 export default function SpellEffectDialog(props: {
   effect: SpellEffectDefinition;
@@ -41,7 +44,9 @@ export default function SpellEffectDialog(props: {
   const [area, setArea] = useState(MIN_AREA);
   const [duration, setDuration] = useState(MIN_DURATION);
 
-  const magickaCost = useMemo(
+  const { skills, luck } = useSpellStore();
+
+  const baseMagickaCost = useMemo(
     () =>
       getMagickaCost({
         baseCost: props.effect.baseCost,
@@ -51,6 +56,16 @@ export default function SpellEffectDialog(props: {
         duration,
       }),
     [props.effect.baseCost, range, magnitude, area, duration],
+  );
+
+  const magickaCost = useMemo(
+    () =>
+      applySkillMultiplier(
+        baseMagickaCost,
+        skills[spellEffectDefinitionById[props.effect.id].school],
+        luck,
+      ),
+    [baseMagickaCost, skills, luck],
   );
 
   const goldCost = useMemo(() => getGoldCost(magickaCost), [magickaCost]);
@@ -169,7 +184,7 @@ export default function SpellEffectDialog(props: {
               magnitude,
               area,
               duration,
-              magickaCost,
+              magickaCost: baseMagickaCost,
               goldCost,
             });
           }}
