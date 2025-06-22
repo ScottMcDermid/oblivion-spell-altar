@@ -3,6 +3,7 @@ import { TextField, Button } from '@mui/material';
 import Image from 'next/image';
 
 import { spellEffectDefinitions, type SpellEffectDefinition } from '@/utils/spellEffectUtils';
+import { useSpellStore } from '@/data/spellStore';
 
 export default function SpellEffectSelector({
   onEffectSelect,
@@ -11,9 +12,15 @@ export default function SpellEffectSelector({
 }) {
   const [search, setSearch] = useState('');
 
-  const filteredEffects: SpellEffectDefinition[] = spellEffectDefinitions.filter((effect) =>
-    effect.name.toLowerCase().includes(search.toLowerCase()),
-  );
+  const { addedEffects } = useSpellStore();
+
+  const filteredEffects: SpellEffectDefinition[] = spellEffectDefinitions.filter((effect) => {
+    const addedSpellEffectIds = addedEffects.map((effect) => effect.id);
+    return (
+      effect.name.toLowerCase().includes(search.toLowerCase()) &&
+      !addedSpellEffectIds.includes(effect.id)
+    );
+  });
 
   return (
     <div className="w-full max-w-md p-4 shadow-sm">

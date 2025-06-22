@@ -8,8 +8,9 @@ import { useSpellStore } from '@/data/spellStore';
 
 export default function CharacterSkillsDrawer(props: { open: boolean; onClose: () => void }) {
   const {
+    luck,
     skills,
-    actions: { setSkills },
+    actions: { setSkills, setLuck },
   } = useSpellStore();
 
   return (
@@ -31,6 +32,13 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
             />
           </div>
         ))}
+        <div>
+          <div className="mb-1 flex justify-between text-sm">
+            <label>Luck</label>
+            <span>{luck}</span>
+          </div>
+          <Slider value={luck} onChange={(_, val) => setLuck(val as number)} min={1} max={100} />
+        </div>
       </div>
     </Drawer>
   );
