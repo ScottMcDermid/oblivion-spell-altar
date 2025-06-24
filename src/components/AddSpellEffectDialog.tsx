@@ -68,7 +68,7 @@ export default function SpellEffectDialog(props: {
         magnitude: props.effect.availableParameters.includes('Magnitude') ? magnitude : 0,
         area: props.effect.availableParameters.includes('Area') ? area : 0,
         duration: props.effect.availableParameters.includes('Duration') ? duration : 0,
-        duration,
+        range,
       }),
     [props.effect.baseCost, range, magnitude, area, duration],
   );
