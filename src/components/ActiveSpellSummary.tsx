@@ -7,6 +7,7 @@ import {
   applySkillMultiplier,
   getMasteryFromMagickaCost,
   getMinLevelForMastery,
+  Mastery,
 } from '@/utils/spellEffectUtils';
 import { Divider, Tooltip } from '@mui/material';
 import FlashOn from '@mui/icons-material/FlashOn';
@@ -15,12 +16,14 @@ import AttachMoney from '@mui/icons-material/AttachMoney';
 export default function ActiveSpellEffects() {
   const { addedEffects, skills, luck } = useSpellStore();
 
-  const maxEffect: SpellEffect | null = useMemo(() =>
-    addedEffects.reduce<SpellEffect | undefined>(
-      (max, effect) =>
-        !max || Math.floor(effect.magickaCost) > Math.floor(max.magickaCost) ? effect : max,
-      null,
-    ),
+  const maxEffect: SpellEffect | undefined = useMemo(
+    () =>
+      addedEffects.reduce<SpellEffect | undefined>(
+        (max, effect) =>
+          !max || Math.floor(effect.magickaCost) > Math.floor(max.magickaCost) ? effect : max,
+        undefined,
+      ),
+    [addedEffects],
   );
 
   const school: School | null = useMemo(
@@ -48,7 +51,7 @@ export default function ActiveSpellEffects() {
     [addedEffects, skills, luck],
   );
 
-  const minLevel = useMemo(() => getMinLevelForMastery(mastery), [mastery]);
+  const minLevel = useMemo(() => (mastery ? getMinLevelForMastery(mastery) : 0), [mastery]);
 
   const goldCost = useMemo(
     () => addedEffects.reduce((goldCost, effect) => goldCost + effect.goldCost, 0),
@@ -58,7 +61,7 @@ export default function ActiveSpellEffects() {
   return (
     <div className="w-full max-w-md shadow-sm">
       <Divider />
-      {school && (
+      {school && mastery && (
         <div className="mt-4 flex items-center justify-end gap-4 text-lg">
           {school} {mastery}
         </div>
