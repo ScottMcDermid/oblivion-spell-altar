@@ -1,6 +1,6 @@
 ## Oblivion Spell Altar
 
-Plan your character's leveling trajectory.
+Experiment with Oblivion's in-depth spell system.
 
 Source for https://oblivionspellaltar.com
 
@@ -20,10 +20,10 @@ Naviage to [http://localhost:3000](http://localhost:3000)
 
 #### Deploying
 
-Instead of starting the development server, start production:
+To start production:
 
 ```bash
-make prod
+make prod-build
 ```
 
 Naviage to [http://localhost:3000](http://localhost:3000)
