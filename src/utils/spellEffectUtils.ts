@@ -15,6 +15,75 @@ export const schools: School[] = [
   'Restoration',
 ];
 
+export type Attribute =
+  | 'Strength'
+  | 'Intelligence'
+  | 'Willpower'
+  | 'Agility'
+  | 'Speed'
+  | 'Endurance'
+  | 'Personality'
+  | 'Luck';
+export const attributes: Attribute[] = [
+  'Strength',
+  'Intelligence',
+  'Willpower',
+  'Agility',
+  'Speed',
+  'Endurance',
+  'Personality',
+  'Luck',
+];
+
+export type Skill =
+  | 'Acrobatics'
+  | 'Alchemy'
+  | 'Alteration'
+  | 'Armorer'
+  | 'Athletics'
+  | 'Blade'
+  | 'Block'
+  | 'Blunt'
+  | 'Conjuration'
+  | 'Destruction'
+  | 'Hand-to-Hand'
+  | 'Heavy Armor'
+  | 'Illusion'
+  | 'Light Armor'
+  | 'Marksman'
+  | 'Mercantile'
+  | 'Mysticism'
+  | 'Restoration'
+  | 'Security'
+  | 'Sneak'
+  | 'Speechcraft';
+export const skills: Skill[] = [
+  'Acrobatics',
+  'Alchemy',
+  'Alteration',
+  'Armorer',
+  'Athletics',
+  'Blade',
+  'Block',
+  'Blunt',
+  'Conjuration',
+  'Destruction',
+  'Hand-to-Hand',
+  'Heavy Armor',
+  'Illusion',
+  'Light Armor',
+  'Marksman',
+  'Mercantile',
+  'Mysticism',
+  'Restoration',
+  'Security',
+  'Sneak',
+  'Speechcraft',
+];
+
+export type LockLevel = 'Very Easy' | 'Easy' | 'Average' | 'Hard' | 'Very Hard';
+export const lockLevels: LockLevel[] = ['Very Easy', 'Easy', 'Average', 'Hard', 'Very Hard'];
+
 export type Mastery = 'Novice' | 'Apprentice' | 'Journeyman' | 'Expert' | 'Master';
 
 export type SpellEffectRange = 'Self' | 'Touch' | 'Target';
@@ -152,6 +221,8 @@ export type SpellEffectName =
   | 'Weakness to Poison'
   | 'Weakness to Shock';
 
+export type SpellEffectParameter = 'Magnitude' | 'Area' | 'Duration';
+
 export type SpellEffectDefinition = {
   id: SpellEffectDefinitionId;
   name: SpellEffectName;
@@ -159,6 +230,11 @@ export type SpellEffectDefinition = {
   barterFactor: number;
   description: string;
   school: School;
+  selectableLockLevel?: boolean;
+  selectableAttribute?: boolean;
+  selectableSkill?: boolean;
+  availableParameters: SpellEffectParameter[];
+  availableRanges: SpellEffectRange[];
 };
 
 export type SpellEffect = {
@@ -167,6 +243,9 @@ export type SpellEffect = {
   magnitude: number;
   area: number;
   duration: number;
+  attribute?: Attribute;
+  skill?: Skill;
+  lockLevel?: LockLevel;
   magickaCost: number;
   goldCost: number;
 };
@@ -299,7 +378,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Absorb Attribute',
     baseCost: 0.95,
     barterFactor: 0,
+    selectableAttribute: true,
     description: "Transfer a portion of target's named attribute to you.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch'],
   },
   ABFA: {
     id: 'ABFA',
@@ -308,6 +390,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 6,
     barterFactor: 0,
     description: "Transfer a portion of target's Fatigue to you.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch'],
   },
   ABHE: {
     id: 'ABHE',
@@ -316,6 +400,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 16,
     barterFactor: 0,
     description: "Transfer a portion of target's Health to you.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch'],
   },
   ABSK: {
     id: 'ABSK',
@@ -323,7 +409,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Absorb Skill',
     baseCost: 2.1,
     barterFactor: 0,
+    selectableAttribute: true,
     description: "Transfer a portion of target's named skill to you.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch'],
   },
   ABSP: {
     id: 'ABSP',
@@ -332,6 +421,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 7.5,
     barterFactor: 0,
     description: "Transfer a portion of target's Magicka to you.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch'],
   },
   BABO: {
     id: 'BABO',
@@ -340,6 +431,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 12.0,
     barterFactor: 0,
     description: 'Conjures a pair of Daedric Boots. (Light Armor)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BACU: {
     id: 'BACU',
@@ -348,6 +441,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 12.0,
     barterFactor: 0,
     description: 'Conjures a Daedric Cuirass. (Heavy Armor)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BAGA: {
     id: 'BAGA',
@@ -356,6 +451,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 8.0,
     barterFactor: 0,
     description: 'Conjures a pair of Daedric Gauntlets. (Light Armor)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BAGR: {
     id: 'BAGR',
@@ -364,6 +461,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 12.0,
     barterFactor: 0,
     description: 'Conjures a pair of Daedric Greaves. (Heavy Armor)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BAHE: {
     id: 'BAHE',
@@ -372,6 +471,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 12.0,
     barterFactor: 0,
     description: 'Conjures a Daedric Helmet. (Light Armor)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BASH: {
     id: 'BASH',
@@ -380,6 +481,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 18.0,
     barterFactor: 0,
     description: 'Conjures a Daedric Shield. (Light Armor)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BRDN: {
     id: 'BRDN',
@@ -388,6 +491,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.21,
     barterFactor: 0,
     description: "Reduce the target's maximum encumbrance.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   BWAX: {
     id: 'BWAX',
@@ -396,6 +501,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 39.0,
     barterFactor: 0,
     description: 'Conjures a Daedric Axe. (Blunt One Hand, Speed: 1.1, Reach: 0.8, Damage: 18)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BWBO: {
     id: 'BWBO',
@@ -404,6 +511,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 95.0,
     barterFactor: 0,
     description: 'Conjures a Daedric Bow. (Marksmanship, Speed: 1.0, Damage: 15)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BWDA: {
     id: 'BWDA',
@@ -412,6 +521,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 14.0,
     barterFactor: 0,
     description: 'Conjures a Daedric Dagger. (Blade One Hand, Speed: 1.4, Reach: 0.6, Damage: 13)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BWMA: {
     id: 'BWMA',
@@ -420,6 +531,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 91.0,
     barterFactor: 0,
     description: 'Conjures a Daedric Mace. (Blunt One Hand, Speed: 0.9, Reach: 1.0, Damage: 22)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   BWSW: {
     id: 'BWSW',
@@ -429,6 +542,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 0,
     description:
       'Conjures a Daedric Claymore. (Blade Two Hand, Speed: 0.8, Reach: 1.3, Damage: 29)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   CALM: {
     id: 'CALM',
@@ -437,6 +552,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.47,
     barterFactor: 0,
     description: "Decrease target's Aggression (inclination to attack).",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   CHML: {
     id: 'CHML',
@@ -446,6 +563,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 65,
     description:
       'Blend into the surroundings. Similar to Invisibility, but not perfect, unless you use 100% Chameleon. However, the effect stays if you attack or do another action.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   CHRM: {
     id: 'CHRM',
@@ -454,6 +573,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.2,
     barterFactor: 0,
     description: "Increase target's disposition.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   COCR: {
     id: 'COCR',
@@ -462,6 +583,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.6,
     barterFactor: 0,
     description: 'Make targeted creature fight for you.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target'],
   },
   COHU: {
     id: 'COHU',
@@ -470,6 +593,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.75,
     barterFactor: 0,
     description: 'Make targeted humanoid fight for you.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   CUDI: {
     id: 'CUDI',
@@ -478,6 +603,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 1400,
     barterFactor: 0,
     description: 'Cures common disease.',
+    availableParameters: ['Area'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   CUPA: {
     id: 'CUPA',
@@ -486,6 +613,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 500,
     barterFactor: 0,
     description: 'Cures paralyzation.',
+    availableParameters: ['Area'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   CUPO: {
     id: 'CUPO',
@@ -494,6 +623,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 600,
     barterFactor: 0,
     description: 'Cures poisoning.',
+    availableParameters: ['Area'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DEMO: {
     id: 'DEMO',
@@ -502,6 +633,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.49,
     barterFactor: 0,
     description: "Decrease target's Confidence (willingness to fight).",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target'],
   },
   DGAT: {
     id: 'DGAT',
@@ -509,7 +642,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     school: 'Destruction',
     baseCost: 100.0,
     barterFactor: 0,
+    selectableAttribute: true,
     description: "Damages target's named attribute.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DGFA: {
     id: 'DGFA',
@@ -518,6 +654,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 4.4,
     barterFactor: 0,
     description: "Damages target's Fatigue.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DGHE: {
     id: 'DGHE',
@@ -526,6 +664,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 12.0,
     barterFactor: 0,
     description: "Damages target's Health.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DGSP: {
     id: 'DGSP',
@@ -534,6 +674,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 2.45,
     barterFactor: 0,
     description: "Damages target's Magicka.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DIAR: {
     id: 'DIAR',
@@ -542,6 +684,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 6.2,
     barterFactor: 0,
     description: 'Damage the Health of equipped armor.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DIWE: {
     id: 'DIWE',
@@ -550,6 +694,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 6.2,
     barterFactor: 0,
     description: 'Damage the Health of an equipped weapon.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DRAT: {
     id: 'DRAT',
@@ -557,7 +703,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Drain Attribute',
     baseCost: 0.7,
     barterFactor: 0,
+    selectableAttribute: true,
     description: "Temporarily lowers target's named attribute.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DRFA: {
     id: 'DRFA',
@@ -566,6 +715,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.18,
     barterFactor: 0,
     description: "Temporarily lowers target's Fatigue.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DRHE: {
     id: 'DRHE',
@@ -574,6 +725,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.9,
     barterFactor: 0,
     description: "Temporarily lowers target's Health.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DRSK: {
     id: 'DRSK',
@@ -581,7 +734,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Drain Skill',
     baseCost: 0.65,
     barterFactor: 0,
+    selectableSkill: true,
     description: "Temporarily lowers target's named skill.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DRSP: {
     id: 'DRSP',
@@ -590,6 +746,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.18,
     barterFactor: 0,
     description: "Temporarily lowers target's Magicka.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DSPL: {
     id: 'DSPL',
@@ -598,6 +756,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 3.6,
     barterFactor: 0,
     description: 'Remove Magicka-based spell effects from the target.',
+    availableParameters: ['Magnitude', 'Area'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   DTCT: {
     id: 'DTCT',
@@ -606,6 +766,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.08,
     barterFactor: 15,
     description: 'Allows to see living things through solid objects.',
+    availableParameters: ['Magnitude', 'Duration'],
+    availableRanges: ['Self'],
   },
   FIDG: {
     id: 'FIDG',
@@ -614,6 +776,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 7.5,
     barterFactor: 0,
     description: 'Produce a manifestation of elemental fire.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   FISH: {
     id: 'FISH',
@@ -622,6 +786,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.95,
     barterFactor: 100,
     description: "Creates a fire shield (armor points + fire resistance) around the target's body.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   FOAT: {
     id: 'FOAT',
@@ -629,7 +795,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Fortify Attribute',
     baseCost: 0.6,
     barterFactor: 100,
+    selectableAttribute: true,
     description: "Increase the value of target's named attribute.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   FOFA: {
     id: 'FOFA',
@@ -638,6 +807,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.04,
     barterFactor: 25,
     description: "Increase the value of target's Fatigue.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   FOHE: {
     id: 'FOHE',
@@ -646,6 +817,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.14,
     barterFactor: 150,
     description: "Increase the value of target's Health.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   FOSK: {
     id: 'FOSK',
@@ -653,7 +826,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Fortify Skill',
     baseCost: 0.6,
     barterFactor: 100,
+    selectableSkill: true,
     description: "Increase the value of target's named skill.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   FOSP: {
     id: 'FOSP',
@@ -662,6 +838,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.15,
     barterFactor: 100,
     description: "Increase the value of target's Magicka.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   FRDG: {
     id: 'FRDG',
@@ -670,6 +848,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 7.4,
     barterFactor: 0,
     description: 'Produce a manifestation of elemental frost.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   FRNZ: {
     id: 'FRNZ',
@@ -678,6 +858,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.04,
     barterFactor: 0,
     description: "Increase target's Aggression (inclination to attack).",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target'],
   },
   FRSH: {
     id: 'FRSH',
@@ -687,6 +869,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 100,
     description:
       "Creates a frost shield (armor points + frost resistance) around the target's body.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   FTHR: {
     id: 'FTHR',
@@ -695,6 +879,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.01,
     barterFactor: 25,
     description: "Increase the target's maximum encumbrance.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   INVI: {
     id: 'INVI',
@@ -704,6 +890,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 0,
     description:
       'Makes the target invisible but not inaudible. The effect dissipates if the target does anything but move e.g attack or pickpocket.',
+    availableParameters: ['Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   LGHT: {
     id: 'LGHT',
@@ -712,6 +900,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.051,
     barterFactor: 12.5,
     description: 'Illuminates the target.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   LISH: {
     id: 'LISH',
@@ -721,6 +911,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 100,
     description:
       "Creates a shock shield (armor points + shock resistance) around the target's body.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   NEYE: {
     id: 'NEYE',
@@ -729,6 +921,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 22.0,
     barterFactor: 20,
     description: 'Ability to see in the dark.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   OPEN: {
     id: 'OPEN',
@@ -736,7 +930,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     school: 'Alteration',
     baseCost: 4.3,
     barterFactor: 0,
+    selectableLockLevel: true,
     description: 'Opens a locked container or door.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   PARA: {
     id: 'PARA',
@@ -745,6 +942,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 475,
     barterFactor: 0,
     description: 'Render target unable to move.',
+    availableParameters: ['Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RALY: {
     id: 'RALY',
@@ -753,6 +952,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.03,
     barterFactor: 0,
     description: "Increase target's Confidence (willingness to attack).",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target'],
   },
   REAT: {
     id: 'REAT',
@@ -760,7 +961,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Restore Attribute',
     baseCost: 38.0,
     barterFactor: 0,
+    selectableAttribute: true,
     description: "Restore target's named attribute.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   REDG: {
     id: 'REDG',
@@ -769,6 +973,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 2.5,
     barterFactor: 400,
     description: 'Reflect any weapon damage back at the attacker.',
+    availableParameters: ['Magnitude', 'Duration'],
+    availableRanges: ['Self'],
   },
   REFA: {
     id: 'REFA',
@@ -777,6 +983,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 2.0,
     barterFactor: 0,
     description: "Restore target's Fatigue.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   REHE: {
     id: 'REHE',
@@ -785,6 +993,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 10.0,
     barterFactor: 0,
     description: "Restore target's Health.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RESP: {
     id: 'RESP',
@@ -793,6 +1003,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 2.5,
     barterFactor: 0,
     description: "Restore target's Magicka.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RFLC: {
     id: 'RFLC',
@@ -801,6 +1013,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 3.5,
     barterFactor: 400,
     description: 'Reflect any spell effect back at the caster.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RSDI: {
     id: 'RSDI',
@@ -809,6 +1023,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.5,
     barterFactor: 15,
     description: "Increase target's resistance to common disease.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RSFI: {
     id: 'RSFI',
@@ -817,6 +1033,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.5,
     barterFactor: 50,
     description: "Increase target's resistance to damage from elemental fire.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RSFR: {
     id: 'RSFR',
@@ -825,6 +1043,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.5,
     barterFactor: 50,
     description: "Increase target's resistance to damage from elemental frost.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RSMA: {
     id: 'RSMA',
@@ -833,6 +1053,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 2.0,
     barterFactor: 150,
     description: "Increase target's resistance to magic.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RSNW: {
     id: 'RSNW',
@@ -841,6 +1063,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 1.5,
     barterFactor: 300,
     description: "Increase target's resistance to damage from normal weapons.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RSPA: {
     id: 'RSPA',
@@ -849,6 +1073,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.75,
     barterFactor: 30,
     description: "Increase target's resistance to paralysis.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RSPO: {
     id: 'RSPO',
@@ -857,6 +1083,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.5,
     barterFactor: 15,
     description: "Increase target's resistance to damage from poison.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   RSSH: {
     id: 'RSSH',
@@ -865,6 +1093,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.5,
     barterFactor: 50,
     description: "Increase target's resistance to damage from elemental shock.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   SABS: {
     id: 'SABS',
@@ -873,6 +1103,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 3.0,
     barterFactor: 400,
     description: "Turns incoming spell's power into equal Magicka increase.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   SHDG: {
     id: 'SHDG',
@@ -881,6 +1113,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 7.8,
     barterFactor: 0,
     description: 'Produce a manifestation of elemental shock.',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   SHLD: {
     id: 'SHLD',
@@ -889,6 +1123,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.45,
     barterFactor: 100,
     description: "Creates a magical shield that contributes to target's armor rating.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   SLNC: {
     id: 'SLNC',
@@ -897,6 +1133,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 60.0,
     barterFactor: 0,
     description: 'Render target incapable of casting spells.',
+    availableParameters: ['Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   STRP: {
     id: 'STRP',
@@ -905,6 +1143,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 30,
     barterFactor: 0,
     description: "Traps target's soul in the smallest possible soul gem.",
+    availableParameters: ['Area', 'Duration'],
+    availableRanges: ['Touch', 'Target'],
   },
   TELE: {
     id: 'TELE',
@@ -913,6 +1153,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.49,
     barterFactor: 0,
     description: 'Allows you to pick up an item from a distance.',
+    availableParameters: ['Magnitude', 'Duration'],
+    availableRanges: ['Target'],
   },
   TURN: {
     id: 'TURN',
@@ -921,6 +1163,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 0,
     description: "Decrease undead creature's Confidence (willingness to fight).",
     school: 'Conjuration',
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   WABR: {
     id: 'WABR',
@@ -929,6 +1173,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 400,
     school: 'Alteration',
     description: 'Lets the target breathe underwater.',
+    availableParameters: ['Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   WAWA: {
     id: 'WAWA',
@@ -937,6 +1183,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 13.0,
     barterFactor: 400,
     description: 'Lets the target walk on water.',
+    availableParameters: ['Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   WKDI: {
     id: 'WKDI',
@@ -945,6 +1193,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.12,
     barterFactor: 0,
     description: "Decrease target's resistance to common disease.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   WKFI: {
     id: 'WKFI',
@@ -953,6 +1203,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.1,
     barterFactor: 0,
     description: "Decrease target's resistance to elemental fire.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   WKFR: {
     id: 'WKFR',
@@ -961,6 +1213,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.1,
     barterFactor: 0,
     description: "Decrease target's resistance to elemental frost.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   WKMA: {
     id: 'WKMA',
@@ -969,6 +1223,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.25,
     barterFactor: 0,
     description: "Decrease target's resistance to magic.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   WKNW: {
     id: 'WKNW',
@@ -977,6 +1233,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.25,
     barterFactor: 0,
     description: "Decrease target's resistance to normal weapons.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   WKPO: {
     id: 'WKPO',
@@ -985,6 +1243,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.1,
     barterFactor: 0,
     description: "Decrease target's resistance to poison.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   WKSH: {
     id: 'WKSH',
@@ -993,6 +1253,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 0.1,
     barterFactor: 0,
     description: "Decrease target's resistance to elemental shock.",
+    availableParameters: ['Magnitude', 'Area', 'Duration'],
+    availableRanges: ['Touch', 'Target', 'Self'],
   },
   Z001: {
     id: 'Z001',
@@ -1001,6 +1263,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 13.0,
     barterFactor: 0,
     description: "Summons Rufio's Ghost. (Used in a Dark Brotherhood quest.)",
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z002: {
     id: 'Z002',
@@ -1009,6 +1273,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 33.3,
     barterFactor: 0,
     description: 'Summons Ancestor Guardian. (Dunmer racial ability)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z003: {
     id: 'Z003',
@@ -1017,6 +1283,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 45.0,
     barterFactor: 0,
     description: 'Summons Spiderling. (Used by Spider Daedra)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z004: {
     id: 'Z004',
@@ -1025,6 +1293,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 1,
     barterFactor: 0,
     description: 'Summons Spiderling. (Used by Spider Daedra)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z005: {
     id: 'Z005',
@@ -1034,6 +1304,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 0,
     description:
       'Summons Bear. (Used by Spriggans, available to the player with the Spell Tomes official plug-in.)',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z006: {
     id: 'Z006',
@@ -1042,6 +1314,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 61,
     barterFactor: 0,
     description: 'Summons Gluttonous Hunger.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z007: {
     id: 'Z007',
@@ -1050,6 +1324,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 123.33,
     barterFactor: 0,
     description: 'Summons Ravenous Hunger.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z008: {
     id: 'Z008',
@@ -1058,6 +1334,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 175,
     barterFactor: 0,
     description: 'Summons Ravenous Hunger.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z009: {
     id: 'Z009',
@@ -1066,6 +1344,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 1,
     barterFactor: 0,
     description: 'Summons Dark Seducer.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z010: {
     id: 'Z010',
@@ -1074,6 +1354,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 1,
     barterFactor: 0,
     description: 'Summons Golden Saint.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z012: {
     id: 'Z012',
@@ -1082,6 +1364,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 45,
     barterFactor: 0,
     description: 'Summons Decrepit Shambles.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z013: {
     id: 'Z013',
@@ -1090,6 +1374,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 87.5,
     barterFactor: 0,
     description: 'Summons Shambles.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z014: {
     id: 'Z014',
@@ -1098,6 +1384,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 150,
     barterFactor: 0,
     description: 'Summons Replete Shambles.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   Z015: {
     id: 'Z015',
@@ -1106,6 +1394,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 22,
     barterFactor: 0,
     description: 'Summons Hunger.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZCLA: {
     id: 'ZCLA',
@@ -1114,6 +1404,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 75.56,
     barterFactor: 0,
     description: 'Summons Clannfear.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZDAE: {
     id: 'ZDAE',
@@ -1122,6 +1414,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 123.33,
     barterFactor: 0,
     description: 'Summons Daedroth.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZDRE: {
     id: 'ZDRE',
@@ -1130,6 +1424,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 72.5,
     barterFactor: 0,
     description: 'Summons Dremora.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZDRL: {
     id: 'ZDRL',
@@ -1138,6 +1434,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 157.14,
     barterFactor: 0,
     description: 'Summons Dremora Lord.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZFIA: {
     id: 'ZFIA',
@@ -1146,6 +1444,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 45.0,
     barterFactor: 0,
     description: 'Summons Flame Atronach.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZFRA: {
     id: 'ZFRA',
@@ -1154,6 +1454,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 102.86,
     barterFactor: 0,
     description: 'Summons Frost Atronach.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZGHO: {
     id: 'ZGHO',
@@ -1162,6 +1464,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 22.0,
     barterFactor: 0,
     description: 'Summons Ghost.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZHDZ: {
     id: 'ZHDZ',
@@ -1170,6 +1474,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 56.0,
     barterFactor: 0,
     description: 'Summons Headless Zombie.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZSCA: {
     id: 'ZSCA',
@@ -1178,6 +1484,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 30.0,
     barterFactor: 0,
     description: 'Summons Scamp.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZSKA: {
     id: 'ZSKA',
@@ -1186,6 +1494,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 32.5,
     barterFactor: 0,
     description: 'Summons Skeleton Guardian.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZSKC: {
     id: 'ZSKC',
@@ -1194,6 +1504,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 152.0,
     barterFactor: 0,
     description: 'Summons Skeleton Champion.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZSKE: {
     id: 'ZSKE',
@@ -1202,6 +1514,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 11.25,
     barterFactor: 0,
     description: 'Summons Skeleton.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZSKH: {
     id: 'ZSKH',
@@ -1210,6 +1524,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 66.0,
     barterFactor: 0,
     description: 'Summons Skeleton Hero.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZSPD: {
     id: 'ZSPD',
@@ -1218,6 +1534,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 195.0,
     barterFactor: 0,
     description: 'Summons Spider Daedra.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZSTA: {
     id: 'ZSTA',
@@ -1226,6 +1544,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 0,
     description: 'Summons Storm Atronach.',
     school: 'Conjuration',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZWRA: {
     id: 'ZWRA',
@@ -1234,6 +1554,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 87.5,
     barterFactor: 0,
     description: 'Summons Faded Wraith.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZWRL: {
     id: 'ZWRL',
@@ -1242,6 +1564,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 260.0,
     barterFactor: 0,
     description: 'Summons Gloom Wraith.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
   ZXIV: {
     id: 'ZXIV',
@@ -1250,6 +1574,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     baseCost: 200.0,
     barterFactor: 0,
     description: 'Summons Xivilai.',
+    availableParameters: ['Duration'],
+    availableRanges: ['Self'],
   },
 };
 
