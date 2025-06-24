@@ -409,7 +409,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Absorb Skill',
     baseCost: 2.1,
     barterFactor: 0,
-    selectableAttribute: true,
+    selectableSkill: true,
     description: "Transfer a portion of target's named skill to you.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch'],

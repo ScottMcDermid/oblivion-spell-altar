@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -49,7 +49,7 @@ export default function SpellEffectDialog(props: {
   onClose: () => void;
   onSpellEffectConfirmed: (effect: SpellEffect) => void;
 }) {
-  const [range, setRange] = useState<SpellEffectRange>(props.effect.availableRanges[0]);
+  const [range, setRange] = useState<SpellEffectRange>('Touch');
   const [magnitude, setMagnitude] = useState(
     props.effect.availableParameters.includes('Magnitude') ? MIN_MAGNITUDE : 1,
   );
@@ -65,9 +65,9 @@ export default function SpellEffectDialog(props: {
     () =>
       getMagickaCost({
         baseCost: props.effect.baseCost,
-        magnitude: props.effect.availableParameters.includes('Magnitude') ? magnitude : 0,
-        area: props.effect.availableParameters.includes('Area') ? area : 0,
-        duration: props.effect.availableParameters.includes('Duration') ? duration : 0,
+        magnitude,
+        area,
+        duration,
         range,
       }),
     [props.effect.baseCost, range, magnitude, area, duration],
@@ -85,15 +85,21 @@ export default function SpellEffectDialog(props: {
 
   const goldCost = useMemo(() => getGoldCost(magickaCost), [magickaCost]);
 
+  useEffect(() => {
+    if (props.open) {
+      setMagnitude(props.effect.availableParameters.includes('Magnitude') ? MIN_MAGNITUDE : 0);
+      setArea(props.effect.availableParameters.includes('Area') ? MIN_AREA : 0);
+      setDuration(props.effect.availableParameters.includes('Duration') ? MIN_DURATION : 0);
+      setRange(props.effect.availableRanges[0]);
+      setAttribute(attributes[0]);
+      setSkill(selectableSkills[0]);
+      setLockLevel(lockLevels[0]);
+    }
+  }, [props.open]);
+
   return (
     <Dialog
-      onClose={() => {
-        setMagnitude(MIN_MAGNITUDE);
-        setArea(MIN_AREA);
-        setDuration(MIN_DURATION);
-        setRange('Touch');
-        props.onClose();
-      }}
+      onClose={props.onClose}
       open={props.open}
       keepMounted={false}
       TransitionProps={{
@@ -102,13 +108,7 @@ export default function SpellEffectDialog(props: {
     >
       <IconButton
         aria-label="close"
-        onClick={() => {
-          setMagnitude(MIN_MAGNITUDE);
-          setArea(MIN_AREA);
-          setDuration(MIN_DURATION);
-          setRange('Touch');
-          props.onClose();
-        }}
+        onClick={props.onClose}
         sx={{
           position: 'absolute',
           right: 8,
@@ -251,25 +251,19 @@ export default function SpellEffectDialog(props: {
         <Button
           variant="contained"
           onClick={() => {
-            setMagnitude(MIN_MAGNITUDE);
-            setArea(MIN_AREA);
-            setDuration(MIN_DURATION);
-            setRange('Touch');
-            setAttribute(attributes[0]);
-            setSkill(selectableSkills[0]);
-            setLockLevel(lockLevels[0]);
-            props.onSpellEffectConfirmed({
+            const spellEffectConfig: SpellEffect = {
               id: props.effect.id,
               range,
-              magnitude: props.effect.availableParameters.includes('Magnitude') ? magnitude : 0,
-              area: props.effect.availableParameters.includes('Area') ? area : 0,
-              duration: props.effect.availableParameters.includes('Duration') ? duration : 0,
+              magnitude,
+              area,
+              duration,
               magickaCost: baseMagickaCost,
               goldCost,
               ...(props.effect.selectableAttribute && { attribute }),
               ...(props.effect.selectableSkill && { skill }),
               ...(props.effect.selectableLockLevel && { lockLevel }),
-            });
+            };
+            props.onSpellEffectConfirmed(spellEffectConfig);
           }}
         >
           Add Spell Effect
