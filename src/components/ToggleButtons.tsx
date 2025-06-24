@@ -16,7 +16,7 @@ export default function ToggleButtons({
   onChangeHandler: (a: string) => void;
 }) {
   return (
-    <div className="mx-1 my-4 min-w-48">
+    <div className="mx-1 my-4 flex place-items-center justify-center">
       {label ? <div className="text-lg">{label}</div> : null}
       <ToggleButtonGroup
         aria-labelledby={`${name}`}

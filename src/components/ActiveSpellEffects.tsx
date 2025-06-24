@@ -38,10 +38,29 @@ export default function ActiveSpellEffects() {
               alt={spellEffectDefinitionById[effect.id].name}
               className="h-5 w-5 object-contain"
             />
-            <span>{spellEffectDefinitionById[effect.id].name}</span>
-            <span className="text-right">{effect.magnitude} pts</span>
-            <span className="text-right">{effect.area} ft</span>
-            <span className="text-right">{effect.duration} sec</span>
+            {effect.attribute ? (
+              <span>
+                {spellEffectDefinitionById[effect.id].name.replace(/Attribute/, effect.attribute)}
+              </span>
+            ) : effect.skill ? (
+              <span>
+                {spellEffectDefinitionById[effect.id].name.replace(/Skill/, effect.skill)}
+              </span>
+            ) : (
+              <span>{spellEffectDefinitionById[effect.id].name}</span>
+            )}
+            <span className="text-right">
+              {spellEffectDefinitionById[effect.id].availableParameters.includes('Magnitude') &&
+                `${effect.magnitude} pts`}
+            </span>
+            <span className="text-right">
+              {spellEffectDefinitionById[effect.id].availableParameters.includes('Area') &&
+                `${effect.area} ft`}
+            </span>
+            <span className="text-right">
+              {spellEffectDefinitionById[effect.id].availableParameters.includes('Duration') &&
+                `${effect.duration} sec`}
+            </span>
             <span className="text-right">{effect.range}</span>
             <Tooltip title="Remove">
               <IconButton

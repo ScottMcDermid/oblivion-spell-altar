@@ -15,13 +15,23 @@ import AttachMoney from '@mui/icons-material/AttachMoney';
 export default function ActiveSpellEffects() {
   const { addedEffects, skills, luck } = useSpellStore();
 
-  const school = useMemo<School | null>(() => {
-    const maxEffect = addedEffects.reduce<SpellEffect | undefined>(
-      (max, effect) => (!max || effect.magickaCost > max.magickaCost ? effect : max),
-      undefined,
-    );
-    return maxEffect ? spellEffectDefinitionById[maxEffect.id].school : null;
-  }, [addedEffects]);
+  const maxEffect: SpellEffect | null = useMemo(() =>
+    addedEffects.reduce<SpellEffect | undefined>(
+      (max, effect) =>
+        !max || Math.floor(effect.magickaCost) > Math.floor(max.magickaCost) ? effect : max,
+      null,
+    ),
+  );
+
+  const school: School | null = useMemo(
+    () => (maxEffect ? spellEffectDefinitionById[maxEffect.id].school : null),
+    [maxEffect],
+  );
+
+  const mastery: Mastery | null = useMemo(
+    () => (maxEffect ? getMasteryFromMagickaCost(maxEffect.magickaCost) : null),
+    [maxEffect],
+  );
 
   const magickaCost = useMemo(
     () =>
@@ -38,7 +48,6 @@ export default function ActiveSpellEffects() {
     [addedEffects, skills, luck],
   );
 
-  const mastery = useMemo(() => getMasteryFromMagickaCost(magickaCost), [magickaCost]);
   const minLevel = useMemo(() => getMinLevelForMastery(mastery), [mastery]);
 
   const goldCost = useMemo(
