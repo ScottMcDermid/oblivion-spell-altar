@@ -60,7 +60,7 @@ export default function ActiveSpellEffects() {
   );
 
   return (
-    <div className="w-full max-w-md shadow-sm">
+    <div className="w-full p-2 shadow-sm">
       <Divider />
       {school && mastery && (
         <div
@@ -75,7 +75,7 @@ export default function ActiveSpellEffects() {
       {school && minLevel > 0 && (
         <div
           className={cn(
-            'flex items-center justify-end gap-4 text-sm',
+            'flex items-center justify-end gap-4',
             minLevel > skills[school] && 'text-error',
           )}
         >

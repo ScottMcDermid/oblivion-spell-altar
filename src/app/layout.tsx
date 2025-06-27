@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description:
     "Craft powerful custom spells with ease using this Oblivion Spell Calculator. Whether you're min-maxing your magic or experimenting with creative effects, this tool helps you visualize magicka costs, durations, and effect stacking - all within the constraints of the game's enchanting system.",
   openGraph: {
-    title: 'Deadbeat Club',
+    title: 'Oblivion Spell Altar',
     description:
       "Craft powerful custom spells with ease using this Oblivion Spell Calculator. Whether you're min-maxing your magic or experimenting with creative effects, this tool helps you visualize magicka costs, durations, and effect stacking - all within the constraints of the game's enchanting system.",
     url: 'https://oblivionspellaltar.com',

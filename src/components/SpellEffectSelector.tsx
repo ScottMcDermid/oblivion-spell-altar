@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Tooltip } from '@mui/material';
 import Image from 'next/image';
 
 import { spellEffectDefinitions, type SpellEffectDefinition } from '@/utils/spellEffectUtils';
@@ -23,9 +23,7 @@ export default function SpellEffectSelector({
   });
 
   return (
-    <div className="w-full max-w-md p-4 shadow-sm">
-      <h2 className="mb-4 text-xl font-semibold">Spell Effects</h2>
-
+    <div className="flex h-full flex-col">
       <TextField
         label="Search Effects"
         variant="outlined"
@@ -33,11 +31,11 @@ export default function SpellEffectSelector({
         fullWidth
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="mb-4"
+        className="mb-4 px-2"
       />
 
-      <div className="relative">
-        <div className="max-h-64 space-y-2 overflow-y-auto pr-1">
+      <div className="min-h-0 flex-1">
+        <div className="h-full space-y-2 overflow-y-auto rounded-md border border-[#2e2e2e] bg-[#252525] pr-1">
           {filteredEffects.map((effect) => (
             <Button
               key={effect.id}
@@ -50,13 +48,16 @@ export default function SpellEffectSelector({
               className="justify-start text-left normal-case"
             >
               <div className="flex w-full items-center gap-3 px-1 py-2">
-                <Image
-                  src={`/icons/spell-effects/${effect.id}.png`}
-                  width={24}
-                  height={24}
-                  alt={effect.name}
-                />
-                <span className="flex-1">{effect.name}</span>
+                <Tooltip title={effect.school}>
+                  <Image
+                    src={`/icons/spell-effects/${effect.id}.png`}
+                    width={64}
+                    height={64}
+                    alt={effect.name}
+                    className="h-10 w-10 lg:h-16 lg:w-16"
+                  />
+                </Tooltip>
+                <span className="flex-1 text-lg">{effect.name}</span>
               </div>
             </Button>
           ))}

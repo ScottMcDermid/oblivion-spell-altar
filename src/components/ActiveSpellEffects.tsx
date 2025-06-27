@@ -1,70 +1,167 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSpellStore } from '@/data/spellStore';
-import { spellEffectDefinitionById } from '@/utils/spellEffectUtils';
+import Image from 'next/image';
+import {
+  applySkillMultiplier,
+  SpellEffect,
+  spellEffectDefinitionById,
+} from '@/utils/spellEffectUtils';
 import { IconButton, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { cn } from '@/utils/cn';
 
 export default function ActiveSpellEffects() {
   const {
     addedEffects,
+    skills,
+    luck,
     actions: { removeSpellEffect },
   } = useSpellStore();
 
-  return (
-    <div className="w-full max-w-md p-4 shadow-sm">
-      <h2 className="mb-4 text-xl font-semibold">Active Effects</h2>
+  const maxEffect: SpellEffect | undefined = useMemo(
+    () =>
+      addedEffects.reduce<SpellEffect | undefined>(
+        (max, effect) =>
+          !max || Math.floor(effect.magickaCost) > Math.floor(max.magickaCost) ? effect : max,
+        undefined,
+      ),
+    [addedEffects],
+  );
 
+  const magickaCosts: number[] = useMemo(
+    () =>
+      addedEffects.map((effect) =>
+        applySkillMultiplier(
+          effect.magickaCost,
+          skills[spellEffectDefinitionById[effect.id].school],
+          luck,
+        ),
+      ),
+    [skills, luck, addedEffects],
+  );
+
+  return (
+    <div className="w-full">
       <div className="w-full">
-        <div className="grid grid-cols-[2rem_1fr_4rem_4rem_4rem_4rem_2rem] border-b pb-2 text-sm font-semibold">
-          <span> </span>
-          <span> </span>
-          <span className="text-right">Mag.</span>
-          <span className="text-right">Area</span>
-          <span className="text-right">Dur.</span>
-          <span className="text-right">Range</span>
+        <div
+          className={cn(
+            'grid items-center border-b py-2 pb-2 text-sm font-semibold',
+            'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_2rem]',
+            'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_2rem]',
+          )}
+        >
+          {/* Spell effect icon */}
+          <span></span>
+
+          {/* Spell effect name */}
+          <span></span>
+
+          {/* Magnitude */}
+          <span className="text-right">
+            <span className="inline lg:hidden">Mag.</span>
+            <span className="hidden lg:inline">Magnitude</span>
+          </span>
+
+          {/* Area */}
+          <span className="text-right">
+            <span className="inline lg:hidden">Area</span>
+            <span className="hidden lg:inline">Area</span>
+          </span>
+
+          {/* Duration */}
+          <span className="text-right">
+            <span className="inline lg:hidden">Dur.</span>
+            <span className="hidden lg:inline">Duration</span>
+          </span>
+
+          {/* Range */}
+          <span className="text-right">
+            <span className="inline lg:hidden">Range</span>
+            <span className="hidden lg:inline">Range</span>
+          </span>
+
+          {/* Magicka */}
+          <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">Magicka</span>
+
+          {/* Gold */}
+          <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">Gold</span>
+
+          {/* Actions*/}
           <span></span>
         </div>
         {addedEffects.length === 0 && (
           <div className="items-center py-2 text-sm last:border-b-0">No Active Effects</div>
         )}
 
-        {addedEffects.map((effect) => (
+        {addedEffects.map((effect, i) => (
           <div
             key={effect.id}
-            className="grid grid-cols-[2rem_1fr_4rem_4rem_4rem_4rem_2rem] items-center border-b py-2 text-sm last:border-b-0"
-          >
-            <img
-              src={`/icons/spell-effects/${effect.id}.png`}
-              alt={spellEffectDefinitionById[effect.id].name}
-              className="h-5 w-5 object-contain"
-            />
-            {effect.attribute ? (
-              <span>
-                {spellEffectDefinitionById[effect.id].name.replace(/Attribute/, effect.attribute)}
-              </span>
-            ) : effect.skill ? (
-              <span>
-                {spellEffectDefinitionById[effect.id].name.replace(/Skill/, effect.skill)}
-              </span>
-            ) : (
-              <span>{spellEffectDefinitionById[effect.id].name}</span>
+            className={cn(
+              'grid items-center border-b py-2 text-sm last:border-b-0',
+              'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_2rem]',
+              'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_2rem]',
+              maxEffect && effect.id === maxEffect.id
+                ? 'border-l-4 border-yellow-400 bg-[#2f2f2f]'
+                : 'pl-1',
             )}
+          >
+            {/* Spell effect icon */}
+            <Tooltip title={spellEffectDefinitionById[effect.id].school}>
+              <Image
+                width={64}
+                height={64}
+                src={`/icons/spell-effects/${effect.id}.png`}
+                alt={spellEffectDefinitionById[effect.id].name}
+                className="h-8 w-8 object-contain pl-1 lg:h-8 lg:w-8"
+              />
+            </Tooltip>
+
+            {/* Spell effect name */}
+            <span className="pl-1 lg:text-lg">
+              {effect.attribute
+                ? spellEffectDefinitionById[effect.id].name.replace(/Attribute/, effect.attribute)
+                : effect.skill
+                  ? spellEffectDefinitionById[effect.id].name.replace(/Skill/, effect.skill)
+                  : effect.lockLevel
+                    ? `${spellEffectDefinitionById[effect.id].name} ${effect.lockLevel} Lock`
+                    : spellEffectDefinitionById[effect.id].name}
+            </span>
+
+            {/* Magnitude */}
             <span className="text-right">
               {spellEffectDefinitionById[effect.id].availableParameters.includes('Magnitude') &&
                 `${effect.magnitude} pts`}
             </span>
+
+            {/* Area */}
             <span className="text-right">
               {spellEffectDefinitionById[effect.id].availableParameters.includes('Area') &&
                 `${effect.area} ft`}
             </span>
+
+            {/* Duration */}
             <span className="text-right">
               {spellEffectDefinitionById[effect.id].availableParameters.includes('Duration') &&
                 `${effect.duration} sec`}
             </span>
+
+            {/* Range */}
             <span className="text-right">{effect.range}</span>
+
+            {/* Magicka Cost */}
+            <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">
+              {Intl.NumberFormat().format(Math.floor(magickaCosts[i]))}
+            </span>
+
+            {/* Gold Cost */}
+            <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">
+              {Intl.NumberFormat().format(Math.floor(effect.goldCost))}
+            </span>
+
+            {/* Actions */}
             <Tooltip title="Remove">
               <IconButton
-                className="p-0 px-1"
+                className="h-8 w-8 p-0 px-1"
                 aria-label="Delete"
                 onClick={() => removeSpellEffect(effect)}
                 sx={(theme) => ({
