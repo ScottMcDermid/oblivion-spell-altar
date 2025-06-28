@@ -38,6 +38,7 @@ import {
   Skill,
   lockLevels,
   LockLevel,
+  magnitudeByLockLevel,
 } from '@/utils/spellEffectUtils';
 
 import ToggleButtons from '@/components/ToggleButtons';
@@ -96,6 +97,12 @@ export default function SpellEffectDialog(props: {
       setLockLevel(lockLevels[0]);
     }
   }, [props.open, props.effect.availableParameters, props.effect.availableRanges]);
+
+  useEffect(() => {
+    if (props.effect.selectableLockLevel) {
+      setMagnitude(magnitudeByLockLevel[lockLevel]);
+    }
+  }, [lockLevel, props.effect.selectableLockLevel]);
 
   return (
     <Dialog
@@ -258,7 +265,6 @@ export default function SpellEffectDialog(props: {
               area,
               duration,
               magickaCost: baseMagickaCost,
-              goldCost,
               ...(props.effect.selectableAttribute && { attribute }),
               ...(props.effect.selectableSkill && { skill }),
               ...(props.effect.selectableLockLevel && { lockLevel }),

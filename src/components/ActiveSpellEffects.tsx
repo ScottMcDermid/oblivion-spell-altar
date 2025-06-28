@@ -3,6 +3,7 @@ import { useSpellStore } from '@/data/spellStore';
 import Image from 'next/image';
 import {
   applySkillMultiplier,
+  getGoldCost,
   SpellEffect,
   spellEffectDefinitionById,
 } from '@/utils/spellEffectUtils';
@@ -155,7 +156,7 @@ export default function ActiveSpellEffects() {
 
             {/* Gold Cost */}
             <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">
-              {Intl.NumberFormat().format(Math.floor(effect.goldCost))}
+              {Intl.NumberFormat().format(getGoldCost(magickaCosts[i]))}
             </span>
 
             {/* Actions */}
