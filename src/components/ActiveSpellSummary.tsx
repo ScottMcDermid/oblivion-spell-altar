@@ -8,6 +8,7 @@ import {
   getMasteryFromMagickaCost,
   getMinLevelForMastery,
   Mastery,
+  getGoldCost,
 } from '@/utils/spellEffectUtils';
 import { Divider, Tooltip } from '@mui/material';
 import FlashOn from '@mui/icons-material/FlashOn';
@@ -54,10 +55,7 @@ export default function ActiveSpellEffects() {
 
   const minLevel = useMemo(() => (mastery ? getMinLevelForMastery(mastery) : 0), [mastery]);
 
-  const goldCost = useMemo(
-    () => addedEffects.reduce((goldCost, effect) => goldCost + effect.goldCost, 0),
-    [addedEffects],
-  );
+  const goldCost = useMemo(() => getGoldCost(magickaCost), [magickaCost]);
 
   return (
     <div className="w-full p-2 shadow-sm">

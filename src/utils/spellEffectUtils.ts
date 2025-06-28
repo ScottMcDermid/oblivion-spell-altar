@@ -83,6 +83,13 @@ export const skills: Skill[] = [
 
 export type LockLevel = 'Very Easy' | 'Easy' | 'Average' | 'Hard' | 'Very Hard';
 export const lockLevels: LockLevel[] = ['Very Easy', 'Easy', 'Average', 'Hard', 'Very Hard'];
+export const magnitudeByLockLevel: Record<LockLevel, number> = {
+  'Very Easy': 7,
+  Easy: 20,
+  Average: 40,
+  Hard: 80,
+  'Very Hard': 99,
+};
 
 export type Mastery = 'Novice' | 'Apprentice' | 'Journeyman' | 'Expert' | 'Master';
 
@@ -247,7 +254,6 @@ export type SpellEffect = {
   skill?: Skill;
   lockLevel?: LockLevel;
   magickaCost: number;
-  goldCost: number;
 };
 
 export type SpellEffectDefinitionId =
@@ -932,8 +938,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 0,
     selectableLockLevel: true,
     description: 'Opens a locked container or door.',
-    availableParameters: ['Magnitude', 'Area', 'Duration'],
-    availableRanges: ['Touch', 'Target', 'Self'],
+    availableParameters: ['Area'],
+    availableRanges: ['Target'],
   },
   PARA: {
     id: 'PARA',
@@ -1607,9 +1613,9 @@ export function getMagickaCost({
   return Math.max(rangeMultiplier * B * M * D * A, 1);
 }
 
-export const SEPTIM_MULTIPLIER = 3;
+export const GOLD_MULTIPLIER = 3;
 export function getGoldCost(magickaCost: number): number {
-  return magickaCost * SEPTIM_MULTIPLIER;
+  return magickaCost * GOLD_MULTIPLIER;
 }
 
 export function applySkillMultiplier(magickaCost: number, skill: number, luck: number): number {
