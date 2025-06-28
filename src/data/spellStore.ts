@@ -63,6 +63,8 @@ const useSpellStore = create<SpellStore>()(
       ),
       partialize: (state) => ({
         addedEffects: state.addedEffects,
+        skills: state.skills,
+        luck: state.luck,
         version: state.version,
       }),
     },
