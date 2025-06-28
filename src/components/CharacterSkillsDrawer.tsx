@@ -66,7 +66,7 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
           <Slider
             value={localLuck}
             onChange={(_, val) => {
-              setLocalLuck(val);
+              setLocalLuck(val as number);
               debouncedSetLuck(val as number);
             }}
             min={1}
