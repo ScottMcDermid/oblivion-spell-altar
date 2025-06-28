@@ -54,7 +54,7 @@ export default function SpellEffectDialog(props: {
   const [magnitude, setMagnitude] = useState(
     props.effect.availableParameters.includes('Magnitude') ? MIN_MAGNITUDE : 1,
   );
-  const [area, setArea] = useState(MIN_AREA);
+  const [area, setArea] = useState(0);
   const [duration, setDuration] = useState(MIN_DURATION);
   const [attribute, setAttribute] = useState(attributes[0]);
   const [skill, setSkill] = useState(selectableSkills[0]);
@@ -89,7 +89,7 @@ export default function SpellEffectDialog(props: {
   useEffect(() => {
     if (props.open) {
       setMagnitude(props.effect.availableParameters.includes('Magnitude') ? MIN_MAGNITUDE : 0);
-      setArea(props.effect.availableParameters.includes('Area') ? MIN_AREA : 0);
+      setArea(0);
       setDuration(props.effect.availableParameters.includes('Duration') ? MIN_DURATION : 0);
       setRange(props.effect.availableRanges[0]);
       setAttribute(attributes[0]);
@@ -215,8 +215,8 @@ export default function SpellEffectDialog(props: {
               <Slider
                 value={area}
                 aria-label="Area"
-                onChange={(_, val) => setArea(val as number)}
-                min={MIN_AREA}
+                onChange={(_, val) => setArea((val as number) < MIN_AREA ? 0 : (val as number))}
+                min={MIN_AREA - 1}
                 max={MAX_AREA}
               />
             </div>
