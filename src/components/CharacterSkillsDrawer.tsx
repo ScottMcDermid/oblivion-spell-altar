@@ -1,10 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Drawer, Slider } from '@mui/material';
 
 import { schools } from '@/utils/spellEffectUtils';
 import { useSpellStore } from '@/data/spellStore';
+import { useDebouncedCallback } from '@/hooks/useDebouncedCallback';
 
 export default function CharacterSkillsDrawer(props: { open: boolean; onClose: () => void }) {
   const {
@@ -12,6 +13,28 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
     skills,
     actions: { setSkills, setLuck },
   } = useSpellStore();
+
+  const [localSkills, setLocalSkills] = useState(skills);
+  const [localLuck, setLocalLuck] = useState(luck);
+
+  const debouncedSetSkill = useDebouncedCallback<[string, number]>(
+    (school: string, val: number) => {
+      setSkills({ [school]: val });
+    },
+    50,
+  );
+
+  const debouncedSetLuck = useDebouncedCallback<[number]>((val: number) => {
+    setLuck(val);
+  }, 50);
+
+  useEffect(() => {
+    setLocalSkills(skills);
+  }, [skills]);
+
+  useEffect(() => {
+    setLocalLuck(luck);
+  }, [luck]);
 
   return (
     <Drawer anchor="left" open={props.open} onClose={props.onClose}>
@@ -22,11 +45,14 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
           <div key={school}>
             <div className="mb-1 flex justify-between text-sm">
               <label>{school}</label>
-              <span>{skills[school]}</span>
+              <span>{localSkills[school]}</span>
             </div>
             <Slider
-              value={skills[school]}
-              onChange={(_, val) => setSkills({ [school]: val as number })}
+              value={localSkills[school]}
+              onChange={(_, val) => {
+                setLocalSkills({ ...localSkills, [school]: val });
+                debouncedSetSkill(school, val as number);
+              }}
               min={1}
               max={100}
             />
@@ -35,9 +61,17 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
         <div>
           <div className="mb-1 flex justify-between text-sm">
             <label>Luck</label>
-            <span>{luck}</span>
+            <span>{localLuck}</span>
           </div>
-          <Slider value={luck} onChange={(_, val) => setLuck(val as number)} min={1} max={100} />
+          <Slider
+            value={localLuck}
+            onChange={(_, val) => {
+              setLocalLuck(val as number);
+              debouncedSetLuck(val as number);
+            }}
+            min={1}
+            max={100}
+          />
         </div>
       </div>
     </Drawer>
