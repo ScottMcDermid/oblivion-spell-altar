@@ -15,7 +15,7 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
 
   return (
     <Drawer anchor="left" open={props.open} onClose={props.onClose}>
-      <div className="w-64 space-y-6 p-4">
+      <div className="w-64 space-y-6 p-4 px-6">
         <h2 className="mb-4 text-lg font-bold">Skills</h2>
 
         {schools.map((school) => (
