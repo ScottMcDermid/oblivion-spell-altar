@@ -56,7 +56,7 @@ export default function ActiveSpellEffects() {
 
   const goldCost = useMemo(
     () => addedEffects.reduce((goldCost, effect) => goldCost + effect.goldCost, 0),
-    [addedEffects, skills],
+    [addedEffects],
   );
 
   return (

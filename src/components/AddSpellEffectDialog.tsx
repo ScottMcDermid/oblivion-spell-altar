@@ -80,7 +80,7 @@ export default function SpellEffectDialog(props: {
         skills[spellEffectDefinitionById[props.effect.id].school],
         luck,
       ),
-    [baseMagickaCost, skills, luck],
+    [baseMagickaCost, skills, luck, props.effect.id],
   );
 
   const goldCost = useMemo(() => getGoldCost(magickaCost), [magickaCost]);
@@ -95,7 +95,7 @@ export default function SpellEffectDialog(props: {
       setSkill(selectableSkills[0]);
       setLockLevel(lockLevels[0]);
     }
-  }, [props.open]);
+  }, [props.open, props.effect.availableParameters, props.effect.availableRanges]);
 
   return (
     <Dialog
