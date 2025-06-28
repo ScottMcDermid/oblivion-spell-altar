@@ -17,11 +17,14 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
   const [localSkills, setLocalSkills] = useState(skills);
   const [localLuck, setLocalLuck] = useState(luck);
 
-  const debouncedSetSkill = useDebouncedCallback((school: string, val: number) => {
-    setSkills({ [school]: val });
-  }, 50);
+  const debouncedSetSkill = useDebouncedCallback<[string, number]>(
+    (school: string, val: number) => {
+      setSkills({ [school]: val });
+    },
+    50,
+  );
 
-  const debouncedSetLuck = useDebouncedCallback((val: number) => {
+  const debouncedSetLuck = useDebouncedCallback<[number]>((val: number) => {
     setLuck(val);
   }, 50);
 
