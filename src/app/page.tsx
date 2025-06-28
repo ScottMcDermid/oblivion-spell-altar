@@ -73,7 +73,7 @@ export default function Home() {
           </div>
 
           <div className="flex w-full flex-1 flex-col justify-center gap-6 overflow-y-auto pt-4 sm:flex-row">
-            <div className="flex min-h-0 max-w-80 flex-1 flex-shrink-0 flex-col">
+            <div className="flex min-h-0 flex-1 flex-shrink-0 flex-col sm:max-w-80">
               <SpellEffectSelector
                 onEffectSelect={(effect) => {
                   setSelectedEffect(effect);
@@ -82,7 +82,7 @@ export default function Home() {
               />
             </div>
 
-            <div className="flex-1 lg:max-w-full">
+            <div className="mt-3 flex-1 lg:max-w-full">
               <ActiveSpellEffects />
               {addedEffects.length > 0 && <ActiveSpellSummary />}
             </div>
