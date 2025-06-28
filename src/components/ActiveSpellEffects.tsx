@@ -136,8 +136,11 @@ export default function ActiveSpellEffects() {
 
             {/* Area */}
             <span className="text-right">
-              {spellEffectDefinitionById[effect.id].availableParameters.includes('Area') &&
-                `${effect.area} ft`}
+              {spellEffectDefinitionById[effect.id].availableParameters.includes('Area')
+                ? effect.area === 0
+                  ? '-'
+                  : `${effect.area} ft`
+                : ''}
             </span>
 
             {/* Duration */}

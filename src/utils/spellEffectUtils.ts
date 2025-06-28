@@ -96,7 +96,7 @@ export type Mastery = 'Novice' | 'Apprentice' | 'Journeyman' | 'Expert' | 'Maste
 export type SpellEffectRange = 'Self' | 'Touch' | 'Target';
 
 export const MIN_MAGNITUDE = 3;
-export const MIN_AREA = 0;
+export const MIN_AREA = 10;
 export const MIN_DURATION = 1;
 export const MAX_MAGNITUDE = 100;
 export const MAX_AREA = 100;
