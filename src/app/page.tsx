@@ -39,9 +39,9 @@ export default function Home() {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <h1 className="absolute w-screen text-center text-lg">Oblivion Spell Altar</h1>
         <div className="max-w-screen m-auto flex h-screen max-h-screen max-w-6xl flex-col">
           {/* Title */}
-          <h1 className="absolute w-full items-center text-center text-lg">Oblivion Spell Altar</h1>
 
           {/* Nav bar */}
           <div className="flex h-12 w-full flex-row justify-between px-2 pt-6 sm:pt-2">
