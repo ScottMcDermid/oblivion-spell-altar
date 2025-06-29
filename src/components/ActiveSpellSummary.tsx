@@ -10,7 +10,7 @@ import {
   Mastery,
   getGoldCost,
 } from '@/utils/spellEffectUtils';
-import { Divider, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import FlashOn from '@mui/icons-material/FlashOn';
 import AttachMoney from '@mui/icons-material/AttachMoney';
 import { cn } from '@/utils/cn';
@@ -59,7 +59,6 @@ export default function ActiveSpellEffects() {
 
   return (
     <div className="w-full p-2 shadow-sm">
-      <Divider />
       {school && mastery && (
         <div
           className={cn(

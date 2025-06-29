@@ -43,6 +43,7 @@ import {
 
 import ToggleButtons from '@/components/ToggleButtons';
 import { useSpellStore } from '@/data/spellStore';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function SpellEffectDialog(props: {
   effectDefinition: SpellEffectDefinition;
@@ -65,7 +66,11 @@ export default function SpellEffectDialog(props: {
     props.effect?.lockLevel ? props.effect.lockLevel : lockLevels[0],
   );
 
-  const { skills, luck } = useSpellStore();
+  const {
+    skills,
+    luck,
+    actions: { removeSpellEffect },
+  } = useSpellStore();
 
   const baseMagickaCost = useMemo(
     () =>
@@ -117,6 +122,7 @@ export default function SpellEffectDialog(props: {
     }
   }, [
     props.open,
+    props.effect,
     props.effectDefinition.availableParameters,
     props.effectDefinition.availableRanges,
   ]);
@@ -135,6 +141,9 @@ export default function SpellEffectDialog(props: {
       TransitionProps={{
         onExited: () => props.onClose,
       }}
+      PaperProps={{
+        className: 'w-[90vw] max-w-md sm:max-w-lg md:max-w-lg',
+      }}
     >
       <IconButton
         aria-label="close"
@@ -147,7 +156,7 @@ export default function SpellEffectDialog(props: {
       >
         <CloseIcon />
       </IconButton>
-      <DialogContent className="min-w-80 p-3">
+      <DialogContent className="p-3">
         <div className="my-2 pr-8 text-3xl">{props.effectDefinition.name}</div>
 
         <div className="space-y-6 p-4">
@@ -261,7 +270,9 @@ export default function SpellEffectDialog(props: {
             </div>
           )}
         </div>
-        <div className="mt-4 flex items-center gap-4 text-lg">
+      </DialogContent>
+      <DialogActions className="space-between flex">
+        <div className="flex w-full place-items-center gap-4 text-lg">
           <Tooltip title="Magicka Cost">
             <div className="flex items-center gap-1">
               <FlashOn fontSize="small" />
@@ -276,27 +287,43 @@ export default function SpellEffectDialog(props: {
             </div>
           </Tooltip>
         </div>
-      </DialogContent>
-      <DialogActions className="space-between flex">
-        <Button
-          variant="contained"
-          onClick={() => {
-            const spellEffectConfig: SpellEffect = {
-              id: props.effectDefinition.id,
-              range,
-              magnitude,
-              area,
-              duration,
-              magickaCost: baseMagickaCost,
-              ...(props.effectDefinition.selectableAttribute && { attribute }),
-              ...(props.effectDefinition.selectableSkill && { skill }),
-              ...(props.effectDefinition.selectableLockLevel && { lockLevel }),
-            };
-            props.onSpellEffectConfirmed(spellEffectConfig);
-          }}
-        >
-          Add Spell Effect
-        </Button>
+        <div className="flex flex-1 justify-end">
+          {props.effect && (
+            <IconButton
+              className="mx-2"
+              color="error"
+              aria-label="Remove Spell"
+              onClick={() => {
+                if (props.effect) {
+                  removeSpellEffect(props.effect);
+                  props.onClose();
+                }
+              }}
+            >
+              <DeleteIcon />
+              <div className="hidden sm:block">&nbsp;Remove</div>
+            </IconButton>
+          )}
+          <Button
+            variant="contained"
+            onClick={() => {
+              const spellEffectConfig: SpellEffect = {
+                id: props.effectDefinition.id,
+                range,
+                magnitude,
+                area,
+                duration,
+                magickaCost: baseMagickaCost,
+                ...(props.effectDefinition.selectableAttribute && { attribute }),
+                ...(props.effectDefinition.selectableSkill && { skill }),
+                ...(props.effectDefinition.selectableLockLevel && { lockLevel }),
+              };
+              props.onSpellEffectConfirmed(spellEffectConfig);
+            }}
+          >
+            Done
+          </Button>
+        </div>
       </DialogActions>
     </Dialog>
   );

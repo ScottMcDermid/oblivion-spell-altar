@@ -99,7 +99,7 @@ export default function Home() {
                   setIsAddSpellEffectOpen(true);
                 }}
               />
-              {addedEffects.length > 0 && <ActiveSpellSummary />}
+              <div className="mt-3">{addedEffects.length > 0 && <ActiveSpellSummary />}</div>
             </div>
           </div>
         </div>
