@@ -7,17 +7,15 @@ import {
   SpellEffect,
   spellEffectDefinitionById,
 } from '@/utils/spellEffectUtils';
-import { IconButton, Tooltip } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Tooltip } from '@mui/material';
 import { cn } from '@/utils/cn';
 
-export default function ActiveSpellEffects() {
-  const {
-    addedEffects,
-    skills,
-    luck,
-    actions: { removeSpellEffect },
-  } = useSpellStore();
+export default function ActiveSpellEffects({
+  onEffectSelect = () => {},
+}: {
+  onEffectSelect?: (effect: SpellEffect) => void;
+}) {
+  const { addedEffects, skills, luck } = useSpellStore();
 
   const maxEffect: SpellEffect | undefined = useMemo(
     () =>
@@ -46,9 +44,9 @@ export default function ActiveSpellEffects() {
       <div className="w-full">
         <div
           className={cn(
-            'grid items-center border-b py-2 pb-2 text-sm font-semibold',
-            'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_2rem]',
-            'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_2rem]',
+            'grid items-center border-b py-2 pb-2 pr-2 text-sm font-semibold',
+            'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem]',
+            'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]',
           )}
         >
           {/* Spell effect icon */}
@@ -97,13 +95,15 @@ export default function ActiveSpellEffects() {
         {addedEffects.map((effect, i) => (
           <div
             key={effect.id}
+            role="button"
+            tabIndex={0}
+            onClick={() => onEffectSelect(effect)}
+            onKeyDown={(e) => e.key === 'Enter' && onEffectSelect(effect)}
             className={cn(
-              'grid items-center border-b py-2 text-sm last:border-b-0',
-              'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_2rem]',
-              'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_2rem]',
-              maxEffect && effect.id === maxEffect.id
-                ? 'border-l-4 border-yellow-400 bg-[#2f2f2f]'
-                : 'pl-1',
+              'grid items-center border-b py-2 pr-2 text-sm last:border-b-0 hover:bg-[#2f2f2f]',
+              'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem]',
+              'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]',
+              maxEffect && effect.id === maxEffect.id ? 'border-l-4 border-l-yellow-400' : 'pl-1',
             )}
           >
             {/* Spell effect icon */}
@@ -161,20 +161,6 @@ export default function ActiveSpellEffects() {
             <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">
               {Intl.NumberFormat().format(getGoldCost(magickaCosts[i]))}
             </span>
-
-            {/* Actions */}
-            <Tooltip title="Remove">
-              <IconButton
-                className="h-8 w-8 p-0 px-1"
-                aria-label="Delete"
-                onClick={() => removeSpellEffect(effect)}
-                sx={(theme) => ({
-                  color: theme.palette.grey[500],
-                })}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
           </div>
         ))}
       </div>

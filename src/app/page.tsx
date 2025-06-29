@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Button, StyledEngineProvider } from '@mui/material';
@@ -10,7 +10,11 @@ import theme from '@/app/theme';
 
 import SpellEffectSelector from '@/components/SpellEffectSelector';
 import AddSpellEffectDialog from '@/components/AddSpellEffectDialog';
-import { type SpellEffectDefinition } from '@/utils/spellEffectUtils';
+import {
+  SpellEffect,
+  spellEffectDefinitionById,
+  type SpellEffectDefinition,
+} from '@/utils/spellEffectUtils';
 
 import { useSpellStore } from '@/data/spellStore';
 import ActiveSpellEffects from '@/components/ActiveSpellEffects';
@@ -26,6 +30,7 @@ export default function Home() {
   const [isAddSpellEffectOpen, setIsAddSpellEffectOpen] = useState(false);
   const [isCharacterSkillsOpen, setIsCharacterSkillsOpen] = useState(false);
   const [isConfirmingReset, setIsConfirmingReset] = useState(false);
+  const [editEffect, setEditEffect] = useState<SpellEffect | null>(null);
   const [selectedEffect, setSelectedEffect] = useState<SpellEffectDefinition | null>(null);
 
   const handleReset = (confirm: boolean) => {
@@ -34,6 +39,10 @@ export default function Home() {
     }
     setIsConfirmingReset(false);
   };
+
+  useEffect(() => {
+    if (!isAddSpellEffectOpen) setEditEffect(null);
+  }, [isAddSpellEffectOpen]);
 
   return (
     <StyledEngineProvider injectFirst>
@@ -83,16 +92,23 @@ export default function Home() {
             </div>
 
             <div className="mt-3 flex-1 lg:max-w-full">
-              <ActiveSpellEffects />
-              {addedEffects.length > 0 && <ActiveSpellSummary />}
+              <ActiveSpellEffects
+                onEffectSelect={(effect) => {
+                  setSelectedEffect(spellEffectDefinitionById[effect.id]);
+                  setEditEffect(effect);
+                  setIsAddSpellEffectOpen(true);
+                }}
+              />
+              <div className="mt-3">{addedEffects.length > 0 && <ActiveSpellSummary />}</div>
             </div>
           </div>
         </div>
 
         {selectedEffect && (
           <AddSpellEffectDialog
-            effect={selectedEffect}
+            effectDefinition={selectedEffect}
             open={isAddSpellEffectOpen}
+            {...(editEffect && { effect: editEffect })}
             onClose={() => setIsAddSpellEffectOpen(false)}
             onSpellEffectConfirmed={(effect) => {
               addSpellEffect(effect);

@@ -1,6 +1,7 @@
 import type { School, SpellEffect } from '@/utils/spellEffectUtils';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { upsert } from '@/utils/array';
 
 type State = {
   addedEffects: SpellEffect[];
@@ -36,7 +37,9 @@ const useSpellStore = create<SpellStore>()(
         version: 1,
         actions: {
           addSpellEffect: (effect) =>
-            set((state) => ({ addedEffects: [...state.addedEffects, effect] })),
+            set((state) => ({
+              addedEffects: upsert<SpellEffect>(state.addedEffects, effect, 'id'),
+            })),
           removeSpellEffect: (effect) =>
             set((state) => ({
               addedEffects: state.addedEffects.filter(
