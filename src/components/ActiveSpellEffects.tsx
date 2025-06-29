@@ -11,7 +11,11 @@ import { IconButton, Tooltip } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { cn } from '@/utils/cn';
 
-export default function ActiveSpellEffects() {
+export default function ActiveSpellEffects({
+  onEffectSelect = () => {},
+}: {
+  onEffectSelect?: (effect: SpellEffect) => void;
+}) {
   const {
     addedEffects,
     skills,
@@ -97,13 +101,15 @@ export default function ActiveSpellEffects() {
         {addedEffects.map((effect, i) => (
           <div
             key={effect.id}
+            role="button"
+            tabIndex={0}
+            onClick={() => onEffectSelect(effect)}
+            onKeyDown={(e) => e.key === 'Enter' && onEffectSelect(effect)}
             className={cn(
-              'grid items-center border-b py-2 text-sm last:border-b-0',
+              'grid items-center border-b py-2 text-sm last:border-b-0 hover:bg-[#2f2f2f]',
               'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_2rem]',
               'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_2rem]',
-              maxEffect && effect.id === maxEffect.id
-                ? 'border-l-4 border-yellow-400 bg-[#2f2f2f]'
-                : 'pl-1',
+              maxEffect && effect.id === maxEffect.id ? 'border-l-4 border-l-yellow-400' : 'pl-1',
             )}
           >
             {/* Spell effect icon */}
