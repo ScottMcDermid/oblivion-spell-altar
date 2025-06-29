@@ -58,9 +58,7 @@ export default function Home() {
               <Button
                 variant="contained"
                 aria-label="Adjust your skills"
-                onClick={() => {
-                  setIsCharacterSkillsOpen(true);
-                }}
+                onClick={() => setIsCharacterSkillsOpen(true)}
               >
                 <BookIcon />
                 <div className="hidden sm:block">&nbsp;Skills</div>
@@ -70,9 +68,7 @@ export default function Home() {
                   className="mx-2"
                   color="error"
                   aria-label="Reset Character"
-                  onClick={() => {
-                    setIsConfirmingReset(true);
-                  }}
+                  onClick={() => setIsConfirmingReset(true)}
                 >
                   <DeleteIcon />
                   <div className="hidden sm:block">&nbsp;Reset</div>

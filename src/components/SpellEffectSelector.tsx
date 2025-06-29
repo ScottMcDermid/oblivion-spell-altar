@@ -45,9 +45,9 @@ export default function SpellEffectSelector({
                 setSearch('');
                 onEffectSelect(effect);
               }}
-              className="mx-1 justify-start text-left normal-case"
+              className="justify-start text-left normal-case"
             >
-              <div className="flex w-full items-center gap-3 px-1 py-2">
+              <div className="flex items-center gap-3 p-1">
                 <Tooltip title={effect.school}>
                   <Image
                     src={`/icons/spell-effects/${effect.id}.png`}
