@@ -289,20 +289,35 @@ export default function SpellEffectDialog(props: {
         </div>
         <div className="flex flex-1 justify-end">
           {props.effect && (
-            <IconButton
-              className="mx-2"
-              color="error"
-              aria-label="Remove Spell"
-              onClick={() => {
-                if (props.effect) {
-                  removeSpellEffect(props.effect);
-                  props.onClose();
-                }
-              }}
-            >
-              <DeleteIcon />
-              <div className="hidden sm:block">&nbsp;Remove</div>
-            </IconButton>
+            <>
+              <IconButton
+                className="mx-2 sm:hidden"
+                color="error"
+                aria-label="Remove Spell"
+                onClick={() => {
+                  if (props.effect) {
+                    removeSpellEffect(props.effect);
+                    props.onClose();
+                  }
+                }}
+              >
+                <DeleteIcon />
+                <div className="hidden sm:block">&nbsp;Remove</div>
+              </IconButton>
+              <Button
+                className="mx-2 hidden sm:inline"
+                color="error"
+                aria-label="Remove Spell"
+                onClick={() => {
+                  if (props.effect) {
+                    removeSpellEffect(props.effect);
+                    props.onClose();
+                  }
+                }}
+              >
+                Remove
+              </Button>
+            </>
           )}
           <Button
             variant="contained"
@@ -321,7 +336,7 @@ export default function SpellEffectDialog(props: {
               props.onSpellEffectConfirmed(spellEffectConfig);
             }}
           >
-            Done
+            {props.effect ? 'Modify' : 'Add'}
           </Button>
         </div>
       </DialogActions>

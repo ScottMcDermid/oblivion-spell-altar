@@ -49,18 +49,16 @@ export default function Home() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <h1 className="absolute w-screen text-center text-lg">Oblivion Spell Altar</h1>
-        <div className="max-w-screen m-auto flex h-screen max-h-screen max-w-6xl flex-col">
+        <div className="max-w-screen m-auto flex h-screen max-h-screen max-w-6xl flex-col bg-inherit">
           {/* Title */}
 
           {/* Nav bar */}
-          <div className="flex h-12 w-full flex-row justify-between px-2 pt-6 sm:pt-2">
+          <div className="z-20 flex h-12 w-full flex-row justify-between px-2 pt-6 sm:pt-2">
             <div className="flex place-items-center">
               <Button
                 variant="contained"
                 aria-label="Adjust your skills"
-                onClick={() => {
-                  setIsCharacterSkillsOpen(true);
-                }}
+                onClick={() => setIsCharacterSkillsOpen(true)}
               >
                 <BookIcon />
                 <div className="hidden sm:block">&nbsp;Skills</div>
@@ -70,9 +68,7 @@ export default function Home() {
                   className="mx-2"
                   color="error"
                   aria-label="Reset Character"
-                  onClick={() => {
-                    setIsConfirmingReset(true);
-                  }}
+                  onClick={() => setIsConfirmingReset(true)}
                 >
                   <DeleteIcon />
                   <div className="hidden sm:block">&nbsp;Reset</div>
@@ -81,7 +77,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex w-full flex-1 flex-col justify-center gap-6 overflow-y-auto pt-4 sm:flex-row">
+          <div className="flex w-full flex-1 flex-col justify-center gap-6 overflow-y-auto bg-inherit pt-4 sm:flex-row">
             <div className="flex min-h-0 flex-1 flex-shrink-0 flex-col sm:max-w-80">
               <SpellEffectSelector
                 onEffectSelect={(effect) => {
@@ -91,7 +87,7 @@ export default function Home() {
               />
             </div>
 
-            <div className="mt-3 flex-1 lg:max-w-full">
+            <div className="mt-3 max-h-80 flex-1 bg-inherit sm:max-h-full lg:max-w-full">
               <ActiveSpellEffects
                 onEffectSelect={(effect) => {
                   setSelectedEffect(spellEffectDefinitionById[effect.id]);
