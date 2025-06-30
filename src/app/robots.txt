@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://oblivionspellaltar.com/sitemap.xml
+Sitemap: https://spells.oblivion.tools/sitemap.xml

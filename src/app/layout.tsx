@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: 'Oblivion Spell Altar',
     description:
       "Craft powerful custom spells with ease using this Oblivion Spell Calculator. Whether you're min-maxing your magic or experimenting with creative effects, this tool helps you visualize magicka costs, durations, and effect stacking - all within the constraints of the game's enchanting system.",
-    url: 'https://oblivionspellaltar.com',
+    url: 'https://spells.oblivion.tools',
     siteName: 'Oblivion Spell Altar',
     type: 'website',
     locale: 'en_US',
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
       "Craft powerful custom spells with ease using this Oblivion Spell Calculator. Whether you're min-maxing your magic or experimenting with creative effects, this tool helps you visualize magicka costs, durations, and effect stacking - all within the constraints of the game's enchanting system.",
   },
   alternates: {
-    canonical: 'https://oblivionspellaltar.com',
+    canonical: 'https://spells.oblivion.tools',
   },
   viewport: {
     width: 'device-width',
