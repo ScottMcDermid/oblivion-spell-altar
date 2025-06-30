@@ -2,7 +2,7 @@
 
 Experiment with Oblivion's in-depth spell system.
 
-Source for https://oblivionspellaltar.com
+Source for https://spells.oblivion.tools
 
 ### Launching
 
