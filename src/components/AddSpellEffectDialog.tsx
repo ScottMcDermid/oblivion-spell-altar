@@ -227,7 +227,9 @@ export default function SpellEffectDialog(props: {
             <div>
               <div className="mb-1 flex justify-between">
                 <label>Magnitude</label>
-                <span>{magnitude} pts</span>
+                <span>
+                  {magnitude} {props.effectDefinition.unit}
+                </span>
               </div>
               <Slider
                 value={magnitude}

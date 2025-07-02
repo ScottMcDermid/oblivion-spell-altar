@@ -242,6 +242,7 @@ export type SpellEffectDefinition = {
   selectableSkill?: boolean;
   availableParameters: SpellEffectParameter[];
   availableRanges: SpellEffectRange[];
+  unit: string;
 };
 
 export type SpellEffect = {
@@ -388,6 +389,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Transfer a portion of target's named attribute to you.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch'],
+    unit: 'pts',
   },
   ABFA: {
     id: 'ABFA',
@@ -398,6 +400,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Transfer a portion of target's Fatigue to you.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch'],
+    unit: 'pts',
   },
   ABHE: {
     id: 'ABHE',
@@ -408,6 +411,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Transfer a portion of target's Health to you.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch'],
+    unit: 'pts',
   },
   ABSK: {
     id: 'ABSK',
@@ -419,6 +423,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Transfer a portion of target's named skill to you.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch'],
+    unit: 'pts',
   },
   ABSP: {
     id: 'ABSP',
@@ -429,6 +434,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Transfer a portion of target's Magicka to you.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch'],
+    unit: 'pts',
   },
   BABO: {
     id: 'BABO',
@@ -439,6 +445,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a pair of Daedric Boots. (Light Armor)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BACU: {
     id: 'BACU',
@@ -449,6 +456,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a Daedric Cuirass. (Heavy Armor)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BAGA: {
     id: 'BAGA',
@@ -459,6 +467,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a pair of Daedric Gauntlets. (Light Armor)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BAGR: {
     id: 'BAGR',
@@ -469,6 +478,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a pair of Daedric Greaves. (Heavy Armor)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BAHE: {
     id: 'BAHE',
@@ -479,6 +489,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a Daedric Helmet. (Light Armor)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BASH: {
     id: 'BASH',
@@ -489,6 +500,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a Daedric Shield. (Light Armor)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BRDN: {
     id: 'BRDN',
@@ -499,6 +511,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Reduce the target's maximum encumbrance.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   BWAX: {
     id: 'BWAX',
@@ -509,6 +522,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a Daedric Axe. (Blunt One Hand, Speed: 1.1, Reach: 0.8, Damage: 18)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BWBO: {
     id: 'BWBO',
@@ -519,6 +533,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a Daedric Bow. (Marksmanship, Speed: 1.0, Damage: 15)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BWDA: {
     id: 'BWDA',
@@ -529,6 +544,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a Daedric Dagger. (Blade One Hand, Speed: 1.4, Reach: 0.6, Damage: 13)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BWMA: {
     id: 'BWMA',
@@ -539,6 +555,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Conjures a Daedric Mace. (Blunt One Hand, Speed: 0.9, Reach: 1.0, Damage: 22)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   BWSW: {
     id: 'BWSW',
@@ -550,6 +567,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
       'Conjures a Daedric Claymore. (Blade Two Hand, Speed: 0.8, Reach: 1.3, Damage: 29)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   CALM: {
     id: 'CALM',
@@ -560,6 +578,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's Aggression (inclination to attack).",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   CHML: {
     id: 'CHML',
@@ -571,6 +590,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
       'Blend into the surroundings. Similar to Invisibility, but not perfect, unless you use 100% Chameleon. However, the effect stays if you attack or do another action.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   CHRM: {
     id: 'CHRM',
@@ -581,6 +601,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's disposition.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   COCR: {
     id: 'COCR',
@@ -591,6 +612,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Make targeted creature fight for you.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target'],
+    unit: 'pts',
   },
   COHU: {
     id: 'COHU',
@@ -601,6 +623,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Make targeted humanoid fight for you.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   CUDI: {
     id: 'CUDI',
@@ -611,6 +634,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Cures common disease.',
     availableParameters: ['Area'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   CUPA: {
     id: 'CUPA',
@@ -621,6 +645,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Cures paralyzation.',
     availableParameters: ['Area'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   CUPO: {
     id: 'CUPO',
@@ -631,6 +656,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Cures poisoning.',
     availableParameters: ['Area'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DEMO: {
     id: 'DEMO',
@@ -641,6 +667,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's Confidence (willingness to fight).",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target'],
+    unit: 'pts',
   },
   DGAT: {
     id: 'DGAT',
@@ -652,6 +679,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Damages target's named attribute.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DGFA: {
     id: 'DGFA',
@@ -662,6 +690,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Damages target's Fatigue.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DGHE: {
     id: 'DGHE',
@@ -672,6 +701,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Damages target's Health.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DGSP: {
     id: 'DGSP',
@@ -682,6 +712,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Damages target's Magicka.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DIAR: {
     id: 'DIAR',
@@ -692,6 +723,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Damage the Health of equipped armor.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DIWE: {
     id: 'DIWE',
@@ -702,6 +734,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Damage the Health of an equipped weapon.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DRAT: {
     id: 'DRAT',
@@ -713,6 +746,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Temporarily lowers target's named attribute.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DRFA: {
     id: 'DRFA',
@@ -723,6 +757,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Temporarily lowers target's Fatigue.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DRHE: {
     id: 'DRHE',
@@ -733,6 +768,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Temporarily lowers target's Health.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DRSK: {
     id: 'DRSK',
@@ -744,6 +780,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Temporarily lowers target's named skill.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DRSP: {
     id: 'DRSP',
@@ -754,6 +791,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Temporarily lowers target's Magicka.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DSPL: {
     id: 'DSPL',
@@ -764,6 +802,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Remove Magicka-based spell effects from the target.',
     availableParameters: ['Magnitude', 'Area'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   DTCT: {
     id: 'DTCT',
@@ -774,6 +813,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Allows to see living things through solid objects.',
     availableParameters: ['Magnitude', 'Duration'],
     availableRanges: ['Self'],
+    unit: 'ft',
   },
   FIDG: {
     id: 'FIDG',
@@ -784,6 +824,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Produce a manifestation of elemental fire.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   FISH: {
     id: 'FISH',
@@ -794,6 +835,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Creates a fire shield (armor points + fire resistance) around the target's body.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   FOAT: {
     id: 'FOAT',
@@ -805,6 +847,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase the value of target's named attribute.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   FOFA: {
     id: 'FOFA',
@@ -815,6 +858,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase the value of target's Fatigue.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   FOHE: {
     id: 'FOHE',
@@ -825,6 +869,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase the value of target's Health.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   FOSK: {
     id: 'FOSK',
@@ -836,6 +881,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase the value of target's named skill.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   FOSP: {
     id: 'FOSP',
@@ -846,6 +892,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase the value of target's Magicka.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   FRDG: {
     id: 'FRDG',
@@ -856,6 +903,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Produce a manifestation of elemental frost.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   FRNZ: {
     id: 'FRNZ',
@@ -866,6 +914,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's Aggression (inclination to attack).",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target'],
+    unit: 'pts',
   },
   FRSH: {
     id: 'FRSH',
@@ -877,6 +926,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
       "Creates a frost shield (armor points + frost resistance) around the target's body.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   FTHR: {
     id: 'FTHR',
@@ -887,6 +937,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase the target's maximum encumbrance.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   INVI: {
     id: 'INVI',
@@ -898,6 +949,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
       'Makes the target invisible but not inaudible. The effect dissipates if the target does anything but move e.g attack or pickpocket.',
     availableParameters: ['Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   LGHT: {
     id: 'LGHT',
@@ -908,6 +960,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Illuminates the target.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'ft',
   },
   LISH: {
     id: 'LISH',
@@ -919,6 +972,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
       "Creates a shock shield (armor points + shock resistance) around the target's body.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   NEYE: {
     id: 'NEYE',
@@ -929,6 +983,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Ability to see in the dark.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   OPEN: {
     id: 'OPEN',
@@ -940,6 +995,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Opens a locked container or door.',
     availableParameters: ['Area'],
     availableRanges: ['Target'],
+    unit: 'pts',
   },
   PARA: {
     id: 'PARA',
@@ -950,6 +1006,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Render target unable to move.',
     availableParameters: ['Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RALY: {
     id: 'RALY',
@@ -960,6 +1017,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's Confidence (willingness to attack).",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target'],
+    unit: 'pts',
   },
   REAT: {
     id: 'REAT',
@@ -971,6 +1029,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Restore target's named attribute.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   REDG: {
     id: 'REDG',
@@ -981,6 +1040,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Reflect any weapon damage back at the attacker.',
     availableParameters: ['Magnitude', 'Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   REFA: {
     id: 'REFA',
@@ -991,6 +1051,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Restore target's Fatigue.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   REHE: {
     id: 'REHE',
@@ -1001,6 +1062,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Restore target's Health.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RESP: {
     id: 'RESP',
@@ -1011,6 +1073,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Restore target's Magicka.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RFLC: {
     id: 'RFLC',
@@ -1021,6 +1084,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Reflect any spell effect back at the caster.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RSDI: {
     id: 'RSDI',
@@ -1031,6 +1095,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's resistance to common disease.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RSFI: {
     id: 'RSFI',
@@ -1041,6 +1106,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's resistance to damage from elemental fire.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RSFR: {
     id: 'RSFR',
@@ -1051,6 +1117,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's resistance to damage from elemental frost.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RSMA: {
     id: 'RSMA',
@@ -1061,6 +1128,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's resistance to magic.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RSNW: {
     id: 'RSNW',
@@ -1071,6 +1139,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's resistance to damage from normal weapons.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RSPA: {
     id: 'RSPA',
@@ -1081,6 +1150,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's resistance to paralysis.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RSPO: {
     id: 'RSPO',
@@ -1091,6 +1161,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's resistance to damage from poison.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   RSSH: {
     id: 'RSSH',
@@ -1101,6 +1172,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Increase target's resistance to damage from elemental shock.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   SABS: {
     id: 'SABS',
@@ -1111,6 +1183,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Turns incoming spell's power into equal Magicka increase.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   SHDG: {
     id: 'SHDG',
@@ -1121,6 +1194,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Produce a manifestation of elemental shock.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   SHLD: {
     id: 'SHLD',
@@ -1131,6 +1205,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Creates a magical shield that contributes to target's armor rating.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   SLNC: {
     id: 'SLNC',
@@ -1141,6 +1216,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Render target incapable of casting spells.',
     availableParameters: ['Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   STRP: {
     id: 'STRP',
@@ -1151,6 +1227,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Traps target's soul in the smallest possible soul gem.",
     availableParameters: ['Area', 'Duration'],
     availableRanges: ['Touch', 'Target'],
+    unit: 'pts',
   },
   TELE: {
     id: 'TELE',
@@ -1161,6 +1238,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Allows you to pick up an item from a distance.',
     availableParameters: ['Magnitude', 'Duration'],
     availableRanges: ['Target'],
+    unit: 'pts',
   },
   TURN: {
     id: 'TURN',
@@ -1171,6 +1249,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     school: 'Conjuration',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   WABR: {
     id: 'WABR',
@@ -1181,6 +1260,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Lets the target breathe underwater.',
     availableParameters: ['Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   WAWA: {
     id: 'WAWA',
@@ -1191,6 +1271,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Lets the target walk on water.',
     availableParameters: ['Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   WKDI: {
     id: 'WKDI',
@@ -1201,6 +1282,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's resistance to common disease.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   WKFI: {
     id: 'WKFI',
@@ -1211,6 +1293,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's resistance to elemental fire.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   WKFR: {
     id: 'WKFR',
@@ -1221,6 +1304,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's resistance to elemental frost.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   WKMA: {
     id: 'WKMA',
@@ -1231,6 +1315,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's resistance to magic.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   WKNW: {
     id: 'WKNW',
@@ -1241,6 +1326,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's resistance to normal weapons.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   WKPO: {
     id: 'WKPO',
@@ -1251,6 +1337,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's resistance to poison.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   WKSH: {
     id: 'WKSH',
@@ -1261,6 +1348,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's resistance to elemental shock.",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
+    unit: 'pts',
   },
   Z001: {
     id: 'Z001',
@@ -1271,6 +1359,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Summons Rufio's Ghost. (Used in a Dark Brotherhood quest.)",
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z002: {
     id: 'Z002',
@@ -1281,6 +1370,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Ancestor Guardian. (Dunmer racial ability)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z003: {
     id: 'Z003',
@@ -1291,6 +1381,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Spiderling. (Used by Spider Daedra)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z004: {
     id: 'Z004',
@@ -1301,6 +1392,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Spiderling. (Used by Spider Daedra)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z005: {
     id: 'Z005',
@@ -1312,6 +1404,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
       'Summons Bear. (Used by Spriggans, available to the player with the Spell Tomes official plug-in.)',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z006: {
     id: 'Z006',
@@ -1322,6 +1415,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Gluttonous Hunger.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z007: {
     id: 'Z007',
@@ -1332,6 +1426,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Ravenous Hunger.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z008: {
     id: 'Z008',
@@ -1342,6 +1437,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Ravenous Hunger.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z009: {
     id: 'Z009',
@@ -1352,6 +1448,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Dark Seducer.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z010: {
     id: 'Z010',
@@ -1362,6 +1459,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Golden Saint.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z012: {
     id: 'Z012',
@@ -1372,6 +1470,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Decrepit Shambles.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z013: {
     id: 'Z013',
@@ -1382,6 +1481,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Shambles.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z014: {
     id: 'Z014',
@@ -1392,6 +1492,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Replete Shambles.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   Z015: {
     id: 'Z015',
@@ -1402,6 +1503,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Hunger.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZCLA: {
     id: 'ZCLA',
@@ -1412,6 +1514,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Clannfear.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZDAE: {
     id: 'ZDAE',
@@ -1422,6 +1525,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Daedroth.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZDRE: {
     id: 'ZDRE',
@@ -1432,6 +1536,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Dremora.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZDRL: {
     id: 'ZDRL',
@@ -1442,6 +1547,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Dremora Lord.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZFIA: {
     id: 'ZFIA',
@@ -1452,6 +1558,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Flame Atronach.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZFRA: {
     id: 'ZFRA',
@@ -1462,6 +1569,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Frost Atronach.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZGHO: {
     id: 'ZGHO',
@@ -1472,6 +1580,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Ghost.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZHDZ: {
     id: 'ZHDZ',
@@ -1482,6 +1591,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Headless Zombie.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZSCA: {
     id: 'ZSCA',
@@ -1492,6 +1602,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Scamp.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZSKA: {
     id: 'ZSKA',
@@ -1502,6 +1613,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Skeleton Guardian.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZSKC: {
     id: 'ZSKC',
@@ -1512,6 +1624,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Skeleton Champion.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZSKE: {
     id: 'ZSKE',
@@ -1522,6 +1635,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Skeleton.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZSKH: {
     id: 'ZSKH',
@@ -1532,6 +1646,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Skeleton Hero.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZSPD: {
     id: 'ZSPD',
@@ -1542,6 +1657,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Spider Daedra.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZSTA: {
     id: 'ZSTA',
@@ -1552,6 +1668,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     school: 'Conjuration',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZWRA: {
     id: 'ZWRA',
@@ -1562,6 +1679,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Faded Wraith.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZWRL: {
     id: 'ZWRL',
@@ -1572,6 +1690,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Gloom Wraith.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
   ZXIV: {
     id: 'ZXIV',
@@ -1582,6 +1701,7 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: 'Summons Xivilai.',
     availableParameters: ['Duration'],
     availableRanges: ['Self'],
+    unit: 'pts',
   },
 };
 
