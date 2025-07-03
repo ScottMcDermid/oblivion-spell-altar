@@ -139,6 +139,7 @@ export default function SpellEffectDialog(props: {
     props.effect,
     props.effectDefinition.availableParameters,
     props.effectDefinition.availableRanges,
+    props.effectDefinition.isLevelBasedMagnitude,
   ]);
 
   useEffect(() => {
