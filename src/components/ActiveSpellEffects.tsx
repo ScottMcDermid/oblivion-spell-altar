@@ -124,7 +124,15 @@ export default function ActiveSpellEffects({
           {/* Magnitude */}
           <span className="text-right">
             {spellEffectDefinitionById[effect.id].availableParameters.includes('Magnitude') &&
-              `${effect.magnitude} ${spellEffectDefinitionById[effect.id].unit}`}
+            spellEffectDefinitionById[effect.id].isLevelBasedMagnitude ? (
+              <span>
+                {spellEffectDefinitionById[effect.id].unit} {effect.magnitude}
+              </span>
+            ) : (
+              <span>
+                {effect.magnitude} {spellEffectDefinitionById[effect.id].unit}
+              </span>
+            )}
           </span>
 
           {/* Area */}

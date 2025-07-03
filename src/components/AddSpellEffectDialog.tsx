@@ -78,12 +78,20 @@ export default function SpellEffectDialog(props: {
     () =>
       getMagickaCost({
         baseCost: props.effectDefinition.baseCost,
+        isLevelBasedMagnitude: props.effectDefinition.isLevelBasedMagnitude,
         magnitude,
         area,
         duration,
         range,
       }),
-    [props.effectDefinition.baseCost, range, magnitude, area, duration],
+    [
+      props.effectDefinition.baseCost,
+      props.effectDefinition.isLevelBasedMagnitude,
+      range,
+      magnitude,
+      area,
+      duration,
+    ],
   );
 
   const magickaCost = useMemo(
@@ -111,7 +119,11 @@ export default function SpellEffectDialog(props: {
       setLockLevel(props.effect.lockLevel ?? lockLevels[0]);
     } else {
       setMagnitude(
-        props.effectDefinition.availableParameters.includes('Magnitude') ? MIN_MAGNITUDE : 0,
+        props.effectDefinition.availableParameters.includes('Magnitude')
+          ? props.effectDefinition.isLevelBasedMagnitude
+            ? MIN_LEVEL_MAGNITUDE
+            : MIN_MAGNITUDE
+          : 0,
       );
       setArea(0);
       setDuration(
@@ -229,9 +241,15 @@ export default function SpellEffectDialog(props: {
             <div>
               <div className="mb-1 flex justify-between">
                 <label>Magnitude</label>
-                <span>
-                  {magnitude} {props.effectDefinition.unit}
-                </span>
+                {props.effectDefinition.isLevelBasedMagnitude ? (
+                  <span>
+                    {props.effectDefinition.unit} {magnitude}
+                  </span>
+                ) : (
+                  <span>
+                    {magnitude} {props.effectDefinition.unit}
+                  </span>
+                )}
               </div>
               <Slider
                 value={magnitude}
@@ -250,7 +268,7 @@ export default function SpellEffectDialog(props: {
             <div>
               <div className="mb-1 flex justify-between">
                 <label>Area</label>
-                <span>{area} ft</span>
+                <span>{area > 0 ? `${area} ft` : '-'}</span>
               </div>
               <Slider
                 value={area}
