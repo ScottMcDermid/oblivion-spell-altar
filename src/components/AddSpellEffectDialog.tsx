@@ -24,9 +24,11 @@ import {
   MAX_AREA,
   MAX_DURATION,
   MAX_MAGNITUDE,
+  MAX_LEVEL_MAGNITUDE,
   MIN_AREA,
   MIN_DURATION,
   MIN_MAGNITUDE,
+  MIN_LEVEL_MAGNITUDE,
   type SpellEffect,
   type SpellEffectDefinition,
   type SpellEffectRange,
@@ -235,8 +237,12 @@ export default function SpellEffectDialog(props: {
                 value={magnitude}
                 aria-label="Magnitude"
                 onChange={(_, val) => setMagnitude(val as number)}
-                min={MIN_MAGNITUDE}
-                max={MAX_MAGNITUDE}
+                min={
+                  props.effectDefinition.isLevelBasedMagnitude ? MIN_LEVEL_MAGNITUDE : MIN_MAGNITUDE
+                }
+                max={
+                  props.effectDefinition.isLevelBasedMagnitude ? MAX_LEVEL_MAGNITUDE : MAX_MAGNITUDE
+                }
               />
             </div>
           )}

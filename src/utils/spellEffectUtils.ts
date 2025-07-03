@@ -96,9 +96,11 @@ export type Mastery = 'Novice' | 'Apprentice' | 'Journeyman' | 'Expert' | 'Maste
 export type SpellEffectRange = 'Self' | 'Touch' | 'Target';
 
 export const MIN_MAGNITUDE = 3;
+export const MIN_LEVEL_MAGNITUDE = 0;
 export const MIN_AREA = 10;
 export const MIN_DURATION = 1;
 export const MAX_MAGNITUDE = 100;
+export const MAX_LEVEL_MAGNITUDE = 25;
 export const MAX_AREA = 100;
 export const MAX_DURATION = 120;
 
@@ -237,6 +239,7 @@ export type SpellEffectDefinition = {
   barterFactor: number;
   description: string;
   school: School;
+  isLevelBasedMagnitude?: boolean;
   selectableLockLevel?: boolean;
   selectableAttribute?: boolean;
   selectableSkill?: boolean;
@@ -578,7 +581,8 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     description: "Decrease target's Aggression (inclination to attack).",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
-    unit: 'pts',
+    isLevelBasedMagnitude: true,
+    unit: 'lvl',
   },
   CHML: {
     id: 'CHML',
@@ -609,10 +613,11 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Command Creature',
     baseCost: 0.6,
     barterFactor: 0,
+    isLevelBasedMagnitude: true,
     description: 'Make targeted creature fight for you.',
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target'],
-    unit: 'pts',
+    unit: 'lvl',
   },
   COHU: {
     id: 'COHU',
@@ -664,10 +669,11 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Demoralize',
     baseCost: 0.49,
     barterFactor: 0,
+    isLevelBasedMagnitude: true,
     description: "Decrease target's Confidence (willingness to fight).",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target'],
-    unit: 'pts',
+    unit: 'lvl',
   },
   DGAT: {
     id: 'DGAT',
@@ -911,10 +917,11 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     name: 'Frenzy',
     baseCost: 0.04,
     barterFactor: 0,
+    isLevelBasedMagnitude: true,
     description: "Increase target's Aggression (inclination to attack).",
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target'],
-    unit: 'pts',
+    unit: 'lvl',
   },
   FRSH: {
     id: 'FRSH',
@@ -1247,9 +1254,10 @@ export const spellEffectDefinitionById: Record<SpellEffectDefinitionId, SpellEff
     barterFactor: 0,
     description: "Decrease undead creature's Confidence (willingness to fight).",
     school: 'Conjuration',
+    isLevelBasedMagnitude: true,
     availableParameters: ['Magnitude', 'Area', 'Duration'],
     availableRanges: ['Touch', 'Target', 'Self'],
-    unit: 'pts',
+    unit: 'lvl',
   },
   WABR: {
     id: 'WABR',
