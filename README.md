@@ -47,3 +47,9 @@ Adjust `.env` to override defaults for local runs.
 
 - `make stop` — halt running containers.
 - `make logs` — tail application logs for quick debugging.
+
+## ⚖️ Legal
+
+- **Trademarks** — *The Elder Scrolls*, *Oblivion*, and related marks are the property of Bethesda Softworks/ZeniMax. References here are purely descriptive; this project is independent, non-commercial, and not endorsed by the rights holders.
+- **Copyright** — All original code in this repository is released under the MIT License (see `LICENSE`). External assets retain their original ownership and are either used with permission or under their respective licenses.
+- **Community transparency** — Contributions occur publicly through issues, pull requests, and commit history so authorship remains attributable. Please flag any content concerns and they will be reviewed or removed to keep the project respectful of both community norms and IP boundaries.
