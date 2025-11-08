@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { Button, StyledEngineProvider } from '@mui/material';
 import BookIcon from '@mui/icons-material/Book';
 import DeleteIcon from '@mui/icons-material/Delete';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import theme from '@/app/theme';
 
 import SpellEffectSelector from '@/components/SpellEffectSelector';
@@ -99,7 +100,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <footer className="mt-16 w-full border-t border-gray-700 bg-neutral-900 px-6 py-8 text-sm text-gray-400">
+        <footer className="relative mt-16 flex w-full flex-col border-t border-gray-700 bg-neutral-900 px-6 py-8 text-sm text-gray-400">
           <div className="mx-auto max-w-4xl space-y-2 text-center">
             <p>Oblivion Tool Suite © 2025 Scott McDermid</p>
             <p>
@@ -120,6 +121,16 @@ export default function Home() {
             </p>
             <p>This site is fan-made and not affiliated with Bethesda.</p>
           </div>
+          <a
+            href="https://github.com/ScottMcDermid/oblivion-spell-altar"
+            className="mt-4 inline-flex items-center gap-2 self-end text-xs uppercase tracking-wide text-gray-400 transition hover:text-gray-200 sm:absolute sm:bottom-4 sm:right-6 sm:mt-0"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View the project on GitHub"
+          >
+            <GitHubIcon fontSize="small" />
+            <span>GitHub</span>
+          </a>
         </footer>
 
         {selectedEffect && (
