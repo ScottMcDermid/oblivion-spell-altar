@@ -183,7 +183,7 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
         )}
 
         <h1 className="absolute w-screen text-center text-lg">Oblivion Spell Altar</h1>
-        <div className="max-w-screen m-auto flex h-screen max-h-screen max-w-6xl flex-col bg-inherit">
+        <div className="max-w-screen m-auto flex min-h-screen max-w-6xl flex-col bg-inherit">
           {/* Nav bar */}
           <div className="z-20 flex h-12 w-full flex-row justify-between px-2 pt-6 sm:pt-2">
             {!isViewOnly && (
@@ -220,10 +220,10 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
             )}
           </div>
 
-          <div className="flex w-full flex-1 flex-col justify-center gap-6 overflow-y-auto bg-inherit pt-4 sm:flex-row">
+          <div className="flex w-full flex-1 flex-col gap-6 bg-inherit pt-4 sm:flex-row">
             {/* Spell effect selector (hidden in view-only mode) */}
             {!isViewOnly && (
-              <div className="flex min-h-0 flex-1 flex-shrink-0 flex-col sm:max-w-80">
+              <div className="flex max-h-80 flex-shrink-0 flex-col sm:sticky sm:top-14 sm:max-h-[calc(100vh-3.5rem)] sm:max-w-80">
                 <SpellEffectSelector
                   onEffectAdded={(id) => setExpandedEffectId(id)}
                 />
@@ -231,7 +231,7 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
             )}
 
             <div className={cn(
-              'mt-3 max-h-80 flex-1 bg-inherit sm:max-h-full lg:max-w-full',
+              'mt-3 flex-1 bg-inherit lg:max-w-full',
               isViewOnly && 'mx-auto max-w-4xl',
             )}>
               {isViewOnly ? (
