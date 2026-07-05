@@ -8,12 +8,14 @@ export default function ToggleButtons({
   value,
   options,
   onChangeHandler,
+  icons,
 }: {
   name: string;
   label?: string;
   value: string | null;
   options: string[];
   onChangeHandler: (a: string) => void;
+  icons?: Record<string, React.ComponentType<{ className?: string }>>;
 }) {
   return (
     <div className="mx-1 my-1 flex place-items-center justify-center">
@@ -27,11 +29,15 @@ export default function ToggleButtons({
           if (selectedValue !== null) onChangeHandler(selectedValue);
         }}
       >
-        {options.map((option) => (
-          <ToggleButton aria-label={option} key={option} value={option} className="min-w-24">
-            {option}
-          </ToggleButton>
-        ))}
+        {options.map((option) => {
+          const Icon = icons?.[option];
+          return (
+            <ToggleButton aria-label={option} key={option} value={option} className="min-w-24">
+              {Icon && <Icon className="mr-1 text-sm" />}
+              {option}
+            </ToggleButton>
+          );
+        })}
       </ToggleButtonGroup>
     </div>
   );

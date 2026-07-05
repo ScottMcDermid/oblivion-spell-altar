@@ -31,9 +31,18 @@ import {
   magnitudeByLockLevel,
 } from '@/utils/spellEffectUtils';
 
+import { FaUser, FaHandPaper } from 'react-icons/fa';
+import { TbTarget } from 'react-icons/tb';
+
 import ToggleButtons from '@/components/ToggleButtons';
 import { useSpellStore } from '@/data/spellStore';
 import { skillIcons } from '@/utils/skillIcons';
+
+const rangeIcons: Record<string, React.ComponentType<{ className?: string }>> = {
+  Self: FaUser,
+  Touch: FaHandPaper,
+  Target: TbTarget,
+};
 
 const THROTTLE_MS = 150;
 
@@ -224,6 +233,7 @@ export default function SpellEffectEditor({
             value={range}
             options={effectDefinition.availableRanges}
             onChangeHandler={(r) => setRange(r as SpellEffectRange)}
+            icons={rangeIcons}
           />
         )}
 
