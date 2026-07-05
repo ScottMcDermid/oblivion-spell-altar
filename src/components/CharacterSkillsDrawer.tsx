@@ -25,12 +25,12 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
     (school: string, val: number) => {
       setSkills({ [school]: val });
     },
-    50,
+    150,
   );
 
   const debouncedSetLuck = useDebouncedCallback<[number]>((val: number) => {
     setLuck(val);
-  }, 50);
+  }, 150);
 
   useEffect(() => {
     setLocalSkills(skills);

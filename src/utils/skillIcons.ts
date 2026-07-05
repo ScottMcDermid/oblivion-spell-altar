@@ -3,7 +3,6 @@ import {
   FaBolt,
   FaBrain,
   FaBriefcaseMedical,
-  FaDice,
   FaEye,
   FaFeather,
   FaFireAlt,
@@ -12,7 +11,7 @@ import {
   FaUnlockAlt,
   FaVial,
 } from 'react-icons/fa';
-import { FaShieldHeart } from 'react-icons/fa6';
+import { FaClover, FaShieldHeart } from 'react-icons/fa6';
 import {
   GiAnvil,
   GiBreastplate,
@@ -76,7 +75,7 @@ export const attributeIcons: Record<Attribute, IconType> = {
   Speed: FaBolt,
   Endurance: FaShieldHeart,
   Personality: FaTheaterMasks,
-  Luck: FaDice,
+  Luck: FaClover,
 };
 
-export const luckIcon: IconType = FaDice;
+export const luckIcon: IconType = FaClover;
