@@ -36,7 +36,7 @@ import { TbTarget } from 'react-icons/tb';
 
 import ToggleButtons from '@/components/ToggleButtons';
 import { useSpellStore } from '@/data/spellStore';
-import { skillIcons } from '@/utils/skillIcons';
+import { attributeIcons, skillIcons } from '@/utils/skillIcons';
 
 const rangeIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   Self: FaUser,
@@ -168,12 +168,25 @@ export default function SpellEffectEditor({
               value={attribute}
               label="Attribute"
               onChange={(e) => setAttribute(e.target.value as Attribute)}
+              renderValue={(value) => {
+                const Icon = attributeIcons[value];
+                return (
+                  <span className="flex items-center gap-2">
+                    <Icon className="shrink-0 text-sm text-gray-400" />
+                    {value}
+                  </span>
+                );
+              }}
             >
-              {attributes.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
+              {attributes.map((option) => {
+                const Icon = attributeIcons[option];
+                return (
+                  <MenuItem key={option} value={option}>
+                    <Icon className="mr-2 inline shrink-0 text-sm text-gray-400" />
+                    {option}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         )}
