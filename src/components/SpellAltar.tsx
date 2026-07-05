@@ -29,6 +29,7 @@ import {
   type SpellEffect,
 } from '@/utils/spellEffectUtils';
 import { cn } from '@/utils/cn';
+import { schoolIcons, luckIcon as LuckIcon } from '@/utils/skillIcons';
 
 function SharedSpellSummary({ sharedSpell }: { sharedSpell: SpellData }) {
   const { skills, luck, effects } = sharedSpell;
@@ -75,10 +76,34 @@ function SharedSpellSummary({ sharedSpell }: { sharedSpell: SpellData }) {
 
   const goldCost = useMemo(() => getGoldCost(magickaCost), [magickaCost]);
 
+  const relevantSchools = useMemo(
+    () => Array.from(new Set(effects.map((e) => spellEffectDefinitionById[e.id].school))),
+    [effects],
+  );
+
   if (effects.length === 0) return null;
 
   return (
     <div className="w-full p-2 shadow-sm">
+      {/* Relevant skills */}
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-400">
+        {relevantSchools.map((s) => {
+          const Icon = schoolIcons[s];
+          return (
+            <div key={s} className="flex items-center gap-1.5">
+              <Icon className="text-base" />
+              <span>
+                {s}: {skills[s]}
+              </span>
+            </div>
+          );
+        })}
+        <div className="flex items-center gap-1.5">
+          <LuckIcon className="text-base" />
+          <span>Luck: {luck}</span>
+        </div>
+      </div>
+
       {school && mastery && (
         <div
           className={cn(
