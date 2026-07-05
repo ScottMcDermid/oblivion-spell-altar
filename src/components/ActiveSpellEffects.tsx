@@ -8,12 +8,16 @@ import {
   spellEffectDefinitionById,
 } from '@/utils/spellEffectUtils';
 import { Tooltip } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { cn } from '@/utils/cn';
+import SpellEffectEditor from '@/components/SpellEffectEditor';
 
 export default function ActiveSpellEffects({
-  onEffectSelect = () => {},
+  expandedEffectId,
+  onToggleExpand,
 }: {
-  onEffectSelect?: (effect: SpellEffect) => void;
+  expandedEffectId: string | null;
+  onToggleExpand: (id: string) => void;
 }) {
   const { addedEffects, skills, luck } = useSpellStore();
 
@@ -41,7 +45,7 @@ export default function ActiveSpellEffects({
 
   return (
     <div className="relative w-full bg-inherit">
-      <div className="sticky top-0 z-10 grid grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem] items-center bg-inherit py-2 pb-2 pr-2 pt-6 text-sm font-semibold shadow-lg lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]">
+      <div className="sticky top-0 z-10 grid grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_1.5rem] items-center bg-inherit py-2 pb-2 pr-2 pt-6 text-sm font-semibold shadow-lg lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_1.5rem]">
         {/* Spell effect icon */}
         <span></span>
 
@@ -78,92 +82,113 @@ export default function ActiveSpellEffects({
         {/* Gold */}
         <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">Gold</span>
 
-        {/* Actions*/}
+        {/* Expand chevron spacer */}
         <span></span>
       </div>
       {addedEffects.length === 0 && (
         <div className="items-center px-2 py-2 text-sm">No Active Effects</div>
       )}
 
-      {addedEffects.map((effect, i) => (
-        <div
-          key={effect.id}
-          role="button"
-          tabIndex={0}
-          onClick={() => onEffectSelect(effect)}
-          onKeyDown={(e) => e.key === 'Enter' && onEffectSelect(effect)}
-          className={cn(
-            'grid items-center py-2 pr-2 text-sm hover:bg-[#2f2f2f]',
-            'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem]',
-            'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]',
-            maxEffect && effect.id === maxEffect.id ? 'border-l-4 border-l-yellow-400' : 'pl-1',
-          )}
-        >
-          {/* Spell effect icon */}
-          <Tooltip title={spellEffectDefinitionById[effect.id].school}>
-            <Image
-              width={64}
-              height={64}
-              src={`/icons/spell-effects/${effect.id}.png`}
-              alt={spellEffectDefinitionById[effect.id].name}
-              className="h-8 w-8 object-contain pl-1 lg:h-8 lg:w-8"
-            />
-          </Tooltip>
+      {addedEffects.map((effect, i) => {
+        const isExpanded = expandedEffectId === effect.id;
+        const definition = spellEffectDefinitionById[effect.id];
 
-          {/* Spell effect name */}
-          <span className="pl-1 lg:text-lg">
-            {effect.attribute
-              ? spellEffectDefinitionById[effect.id].name.replace(/Attribute/, effect.attribute)
-              : effect.skill
-                ? spellEffectDefinitionById[effect.id].name.replace(/Skill/, effect.skill)
-                : effect.lockLevel
-                  ? `${spellEffectDefinitionById[effect.id].name} ${effect.lockLevel} Lock`
-                  : spellEffectDefinitionById[effect.id].name}
-          </span>
+        return (
+          <div key={effect.id}>
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => onToggleExpand(effect.id)}
+              onKeyDown={(e) => e.key === 'Enter' && onToggleExpand(effect.id)}
+              className={cn(
+                'grid cursor-pointer items-center py-2 pr-2 text-sm hover:bg-[#2f2f2f]',
+                'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_1.5rem]',
+                'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_1.5rem]',
+                maxEffect && effect.id === maxEffect.id
+                  ? 'border-l-4 border-l-yellow-400'
+                  : 'pl-1',
+              )}
+            >
+              {/* Spell effect icon */}
+              <Tooltip title={definition.school}>
+                <Image
+                  width={64}
+                  height={64}
+                  src={`/icons/spell-effects/${effect.id}.png`}
+                  alt={definition.name}
+                  className="h-8 w-8 object-contain pl-1 lg:h-8 lg:w-8"
+                />
+              </Tooltip>
 
-          {/* Magnitude */}
-          <span className="text-right">
-            {spellEffectDefinitionById[effect.id].availableParameters.includes('Magnitude') &&
-            spellEffectDefinitionById[effect.id].isLevelBasedMagnitude ? (
-              <span>
-                {spellEffectDefinitionById[effect.id].unit} {effect.magnitude}
+              {/* Spell effect name */}
+              <span className="pl-1 lg:text-lg">
+                {effect.attribute
+                  ? definition.name.replace(/Attribute/, effect.attribute)
+                  : effect.skill
+                    ? definition.name.replace(/Skill/, effect.skill)
+                    : effect.lockLevel
+                      ? `${definition.name} ${effect.lockLevel} Lock`
+                      : definition.name}
               </span>
-            ) : (
-              <span>
-                {effect.magnitude} {spellEffectDefinitionById[effect.id].unit}
+
+              {/* Magnitude */}
+              <span className="text-right">
+                {definition.availableParameters.includes('Magnitude') &&
+                definition.isLevelBasedMagnitude ? (
+                  <span>
+                    {definition.unit} {effect.magnitude}
+                  </span>
+                ) : (
+                  <span>
+                    {effect.magnitude} {definition.unit}
+                  </span>
+                )}
               </span>
+
+              {/* Area */}
+              <span className="text-right">
+                {definition.availableParameters.includes('Area')
+                  ? effect.area === 0
+                    ? '-'
+                    : `${effect.area} ft`
+                  : ''}
+              </span>
+
+              {/* Duration */}
+              <span className="text-right">
+                {definition.availableParameters.includes('Duration') && `${effect.duration}s`}
+              </span>
+
+              {/* Range */}
+              <span className="text-right">{effect.range}</span>
+
+              {/* Magicka Cost */}
+              <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">
+                {Intl.NumberFormat().format(Math.floor(magickaCosts[i]))}
+              </span>
+
+              {/* Gold Cost */}
+              <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">
+                {Intl.NumberFormat().format(getGoldCost(magickaCosts[i]))}
+              </span>
+
+              {/* Expand chevron */}
+              <ExpandMoreIcon
+                fontSize="small"
+                className={cn(
+                  'transition-transform duration-200',
+                  isExpanded && 'rotate-180',
+                )}
+              />
+            </div>
+
+            {/* Inline editor panel */}
+            {isExpanded && (
+              <SpellEffectEditor effect={effect} effectDefinition={definition} />
             )}
-          </span>
-
-          {/* Area */}
-          <span className="text-right">
-            {spellEffectDefinitionById[effect.id].availableParameters.includes('Area')
-              ? effect.area === 0
-                ? '-'
-                : `${effect.area} ft`
-              : ''}
-          </span>
-
-          {/* Duration */}
-          <span className="text-right">
-            {spellEffectDefinitionById[effect.id].availableParameters.includes('Duration') &&
-              `${effect.duration}s`}
-          </span>
-
-          {/* Range */}
-          <span className="text-right">{effect.range}</span>
-
-          {/* Magicka Cost */}
-          <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">
-            {Intl.NumberFormat().format(Math.floor(magickaCosts[i]))}
-          </span>
-
-          {/* Gold Cost */}
-          <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">
-            {Intl.NumberFormat().format(getGoldCost(magickaCosts[i]))}
-          </span>
-        </div>
-      ))}
+          </div>
+        );
+      })}
     </div>
   );
 }

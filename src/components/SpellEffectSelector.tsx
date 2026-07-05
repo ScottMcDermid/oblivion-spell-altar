@@ -3,22 +3,68 @@ import { TextField, Button, Chip, Tooltip } from '@mui/material';
 import Image from 'next/image';
 
 import {
+  getMagickaCost,
+  MIN_DURATION,
+  MIN_MAGNITUDE,
+  MIN_LEVEL_MAGNITUDE,
   schools,
   spellEffectDefinitions,
+  attributes,
+  skills as selectableSkills,
+  lockLevels,
+  magnitudeByLockLevel,
   type School,
+  type SpellEffect,
   type SpellEffectDefinition,
 } from '@/utils/spellEffectUtils';
 import { useSpellStore } from '@/data/spellStore';
 
+function createDefaultEffect(definition: SpellEffectDefinition): SpellEffect {
+  const magnitude = definition.availableParameters.includes('Magnitude')
+    ? definition.selectableLockLevel
+      ? magnitudeByLockLevel[lockLevels[0]]
+      : definition.isLevelBasedMagnitude
+        ? MIN_LEVEL_MAGNITUDE
+        : MIN_MAGNITUDE
+    : 0;
+  const area = 0;
+  const duration = definition.availableParameters.includes('Duration') ? MIN_DURATION : 0;
+  const range = definition.availableRanges[0];
+
+  const magickaCost = getMagickaCost({
+    baseCost: definition.baseCost,
+    isLevelBasedMagnitude: definition.isLevelBasedMagnitude,
+    magnitude,
+    area,
+    duration,
+    range,
+  });
+
+  return {
+    id: definition.id,
+    range,
+    magnitude,
+    area,
+    duration,
+    magickaCost,
+    ...(definition.selectableAttribute && { attribute: attributes[0] }),
+    ...(definition.selectableSkill && { skill: selectableSkills[0] }),
+    ...(definition.selectableLockLevel && { lockLevel: lockLevels[0] }),
+  };
+}
+
 export default function SpellEffectSelector({
-  onEffectSelect,
+  onEffectAdded,
 }: {
-  onEffectSelect: (effect: SpellEffectDefinition) => void;
+  onEffectAdded: (id: string) => void;
 }) {
   const [search, setSearch] = useState('');
   const [schoolFilter, setSchoolFilter] = useState<School | null>(null);
 
-  const { addedEffects } = useSpellStore();
+  const {
+    addedEffects,
+    actions: { addSpellEffect },
+  } = useSpellStore();
 
   const filteredEffects: SpellEffectDefinition[] = spellEffectDefinitions.filter((effect) => {
     const addedSpellEffectIds = addedEffects.map((effect) => effect.id);
@@ -63,8 +109,10 @@ export default function SpellEffectSelector({
               variant="outlined"
               fullWidth
               onClick={() => {
+                const defaultEffect = createDefaultEffect(effect);
+                addSpellEffect(defaultEffect);
+                onEffectAdded(effect.id);
                 setSearch('');
-                onEffectSelect(effect);
               }}
               className="justify-start text-left normal-case"
             >
