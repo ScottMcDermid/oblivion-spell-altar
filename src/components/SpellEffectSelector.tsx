@@ -18,6 +18,7 @@ import {
   type SpellEffectDefinition,
 } from '@/utils/spellEffectUtils';
 import { useSpellStore } from '@/data/spellStore';
+import { schoolIcons } from '@/utils/skillIcons';
 
 function createDefaultEffect(definition: SpellEffectDefinition): SpellEffect {
   const magnitude = definition.availableParameters.includes('Magnitude')
@@ -88,17 +89,21 @@ export default function SpellEffectSelector({
       />
 
       <div className="mb-2 flex flex-wrap gap-1 px-2">
-        {schools.map((school) => (
-          <Chip
-            key={school}
-            label={school}
-            size="small"
-            variant={schoolFilter === school ? 'filled' : 'outlined'}
-            color={schoolFilter === school ? 'primary' : 'default'}
-            onClick={() => setSchoolFilter(schoolFilter === school ? null : school)}
-            className="text-xs"
-          />
-        ))}
+        {schools.map((school) => {
+          const Icon = schoolIcons[school];
+          return (
+            <Chip
+              key={school}
+              icon={<Icon className="!text-xs" />}
+              label={school}
+              size="small"
+              variant={schoolFilter === school ? 'filled' : 'outlined'}
+              color={schoolFilter === school ? 'primary' : 'default'}
+              onClick={() => setSchoolFilter(schoolFilter === school ? null : school)}
+              className="text-xs"
+            />
+          );
+        })}
       </div>
 
       <div className="min-h-0 flex-1">
