@@ -2,22 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { Drawer, Slider } from '@mui/material';
-import { FaFeather, FaFireAlt, FaEye, FaBriefcaseMedical, FaDice } from 'react-icons/fa';
-import { GiDevilMask, GiDominoMask } from 'react-icons/gi';
-import type { IconType } from 'react-icons';
-
-import { schools, type School } from '@/utils/spellEffectUtils';
+import { schools } from '@/utils/spellEffectUtils';
 import { useSpellStore } from '@/data/spellStore';
 import { useDebouncedCallback } from '@/hooks/useDebouncedCallback';
-
-const schoolIcons: Record<School, IconType> = {
-  Alteration: FaFeather,
-  Conjuration: GiDevilMask,
-  Destruction: FaFireAlt,
-  Illusion: GiDominoMask,
-  Mysticism: FaEye,
-  Restoration: FaBriefcaseMedical,
-};
+import { schoolIcons, luckIcon as LuckIcon } from '@/utils/skillIcons';
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
@@ -101,7 +89,7 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
 
         <div>
           <div className="mb-1 flex items-center gap-2 text-sm">
-            <FaDice className="shrink-0 text-base text-gray-400" />
+            <LuckIcon className="shrink-0 text-base text-gray-400" />
             <label className="flex-1">Luck</label>
             <input
               type="number"

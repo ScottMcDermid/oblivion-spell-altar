@@ -33,6 +33,7 @@ import {
 
 import ToggleButtons from '@/components/ToggleButtons';
 import { useSpellStore } from '@/data/spellStore';
+import { skillIcons } from '@/utils/skillIcons';
 
 const THROTTLE_MS = 150;
 
@@ -176,12 +177,25 @@ export default function SpellEffectEditor({
               value={skill}
               label="Skill"
               onChange={(e) => setSkill(e.target.value as Skill)}
+              renderValue={(value) => {
+                const Icon = skillIcons[value];
+                return (
+                  <span className="flex items-center gap-2">
+                    <Icon className="shrink-0 text-sm text-gray-400" />
+                    {value}
+                  </span>
+                );
+              }}
             >
-              {selectableSkills.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
+              {selectableSkills.map((option) => {
+                const Icon = skillIcons[option];
+                return (
+                  <MenuItem key={option} value={option}>
+                    <Icon className="mr-2 inline shrink-0 text-sm text-gray-400" />
+                    {option}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         )}
