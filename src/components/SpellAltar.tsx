@@ -11,12 +11,13 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import theme from '@/app/theme';
 
 import SpellEffectSelector from '@/components/SpellEffectSelector';
-import ActiveSpellEffects from '@/components/ActiveSpellEffects';
+import ActiveSpellEffects, { EffectsSkeleton } from '@/components/ActiveSpellEffects';
 import ActiveSpellSummary from '@/components/ActiveSpellSummary';
 import CharacterSkillsDrawer from '@/components/CharacterSkillsDrawer';
 import ConfirmDialog from '@/components/ConfirmDialog';
 
 import { useSpellStore } from '@/data/spellStore';
+import { useHydrated } from '@/hooks/useHydrated';
 import { useShareSpell } from '@/hooks/useShareSpell';
 import { type SpellData } from '@/utils/spellCodec';
 import {
@@ -144,6 +145,7 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
     actions: { resetSpell, loadSpell },
   } = useSpellStore();
   const { copyShareUrl } = useShareSpell();
+  const hydrated = useHydrated();
 
   const isViewOnly = !!sharedSpell;
 
@@ -274,14 +276,20 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
                 </>
               ) : (
                 <>
-                  <ActiveSpellEffects
-                    expandedEffectId={expandedEffectId}
-                    onToggleExpand={(id) =>
-                      setExpandedEffectId((prev) => (prev === id ? null : id))
-                    }
-                  />
-                  <div className="mt-3">
-                    {addedEffects.length > 0 && <ActiveSpellSummary />}
+                  {!hydrated && <EffectsSkeleton />}
+                  <div className={cn(
+                    'transition-opacity duration-200',
+                    hydrated ? 'opacity-100' : 'h-0 overflow-hidden opacity-0',
+                  )}>
+                    <ActiveSpellEffects
+                      expandedEffectId={expandedEffectId}
+                      onToggleExpand={(id) =>
+                        setExpandedEffectId((prev) => (prev === id ? null : id))
+                      }
+                    />
+                    <div className="mt-3">
+                      {addedEffects.length > 0 && <ActiveSpellSummary />}
+                    </div>
                   </div>
                 </>
               )}
