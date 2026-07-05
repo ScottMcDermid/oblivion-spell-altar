@@ -183,9 +183,18 @@ export default function ActiveSpellEffects({
             </div>
 
             {/* Inline editor panel */}
-            {isExpanded && (
-              <SpellEffectEditor effect={effect} effectDefinition={definition} />
-            )}
+            <div
+              className={cn(
+                'grid transition-[grid-template-rows,opacity] duration-300 ease-in-out',
+                isExpanded
+                  ? 'grid-rows-[1fr] opacity-100'
+                  : 'grid-rows-[0fr] opacity-0',
+              )}
+            >
+              <div className="min-h-0 overflow-hidden">
+                <SpellEffectEditor effect={effect} effectDefinition={definition} />
+              </div>
+            </div>
           </div>
         );
       })}
