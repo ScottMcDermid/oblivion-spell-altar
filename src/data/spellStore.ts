@@ -16,6 +16,11 @@ type Action = {
   setSkills: (skills: Partial<Record<School, number>>) => void;
   setLuck: (luck: number) => void;
   resetSpell: () => void;
+  loadSpell: (data: {
+    addedEffects: SpellEffect[];
+    skills: Record<School, number>;
+    luck: number;
+  }) => void;
 };
 
 type SpellStore = State & { actions: Action };
@@ -54,6 +59,13 @@ const useSpellStore = create<SpellStore>()(
           },
           resetSpell: () => {
             set(() => ({ addedEffects: [] }));
+          },
+          loadSpell: (data) => {
+            set(() => ({
+              addedEffects: data.addedEffects,
+              skills: data.skills,
+              luck: data.luck,
+            }));
           },
         },
       };

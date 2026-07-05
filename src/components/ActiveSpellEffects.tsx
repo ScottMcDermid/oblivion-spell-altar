@@ -6,6 +6,7 @@ import {
   getGoldCost,
   SpellEffect,
   spellEffectDefinitionById,
+  type School,
 } from '@/utils/spellEffectUtils';
 import { Tooltip } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -15,37 +16,55 @@ import SpellEffectEditor from '@/components/SpellEffectEditor';
 export default function ActiveSpellEffects({
   expandedEffectId,
   onToggleExpand,
+  viewOnlyEffects,
+  viewOnlySkills,
+  viewOnlyLuck,
 }: {
   expandedEffectId: string | null;
   onToggleExpand: (id: string) => void;
+  viewOnlyEffects?: SpellEffect[];
+  viewOnlySkills?: Record<School, number>;
+  viewOnlyLuck?: number;
 }) {
-  const { addedEffects, skills, luck } = useSpellStore();
+  const store = useSpellStore();
+
+  const isViewOnly = !!viewOnlyEffects;
+  const effects = viewOnlyEffects ?? store.addedEffects;
+  const skills = viewOnlySkills ?? store.skills;
+  const luck = viewOnlyLuck ?? store.luck;
 
   const maxEffect: SpellEffect | undefined = useMemo(
     () =>
-      addedEffects.reduce<SpellEffect | undefined>(
+      effects.reduce<SpellEffect | undefined>(
         (max, effect) =>
           !max || Math.floor(effect.magickaCost) > Math.floor(max.magickaCost) ? effect : max,
         undefined,
       ),
-    [addedEffects],
+    [effects],
   );
 
   const magickaCosts: number[] = useMemo(
     () =>
-      addedEffects.map((effect) =>
+      effects.map((effect) =>
         applySkillMultiplier(
           effect.magickaCost,
           skills[spellEffectDefinitionById[effect.id].school],
           luck,
         ),
       ),
-    [skills, luck, addedEffects],
+    [skills, luck, effects],
   );
 
   return (
     <div className="relative w-full bg-inherit">
-      <div className="sticky top-0 z-10 grid grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_1.5rem] items-center bg-inherit py-2 pb-2 pr-2 pt-6 text-sm font-semibold shadow-lg lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_1.5rem]">
+      <div
+        className={cn(
+          'sticky top-0 z-10 grid items-center bg-inherit py-2 pb-2 pr-2 pt-6 text-sm font-semibold shadow-lg',
+          isViewOnly
+            ? 'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]'
+            : 'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_1.5rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_1.5rem]',
+        )}
+      >
         {/* Spell effect icon */}
         <span></span>
 
@@ -82,28 +101,34 @@ export default function ActiveSpellEffects({
         {/* Gold */}
         <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">Gold</span>
 
-        {/* Expand chevron spacer */}
-        <span></span>
+        {/* Expand chevron spacer (only in editable mode) */}
+        {!isViewOnly && <span></span>}
       </div>
-      {addedEffects.length === 0 && (
+      {effects.length === 0 && (
         <div className="items-center px-2 py-2 text-sm">No Active Effects</div>
       )}
 
-      {addedEffects.map((effect, i) => {
+      {effects.map((effect, i) => {
         const isExpanded = expandedEffectId === effect.id;
         const definition = spellEffectDefinitionById[effect.id];
 
         return (
           <div key={effect.id}>
             <div
-              role="button"
-              tabIndex={0}
-              onClick={() => onToggleExpand(effect.id)}
-              onKeyDown={(e) => e.key === 'Enter' && onToggleExpand(effect.id)}
+              role={isViewOnly ? undefined : 'button'}
+              tabIndex={isViewOnly ? undefined : 0}
+              onClick={isViewOnly ? undefined : () => onToggleExpand(effect.id)}
+              onKeyDown={
+                isViewOnly
+                  ? undefined
+                  : (e) => e.key === 'Enter' && onToggleExpand(effect.id)
+              }
               className={cn(
-                'grid cursor-pointer items-center py-2 pr-2 text-sm hover:bg-[#2f2f2f]',
-                'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_1.5rem]',
-                'lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_1.5rem]',
+                'grid items-center py-2 pr-2 text-sm',
+                !isViewOnly && 'cursor-pointer hover:bg-[#2f2f2f]',
+                isViewOnly
+                  ? 'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]'
+                  : 'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_1.5rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_1.5rem]',
                 maxEffect && effect.id === maxEffect.id
                   ? 'border-l-4 border-l-yellow-400'
                   : 'pl-1',
@@ -172,29 +197,33 @@ export default function ActiveSpellEffects({
                 {Intl.NumberFormat().format(getGoldCost(magickaCosts[i]))}
               </span>
 
-              {/* Expand chevron */}
-              <ExpandMoreIcon
-                fontSize="small"
-                className={cn(
-                  'transition-transform duration-200',
-                  isExpanded && 'rotate-180',
-                )}
-              />
+              {/* Expand chevron (only in editable mode) */}
+              {!isViewOnly && (
+                <ExpandMoreIcon
+                  fontSize="small"
+                  className={cn(
+                    'transition-transform duration-200',
+                    isExpanded && 'rotate-180',
+                  )}
+                />
+              )}
             </div>
 
-            {/* Inline editor panel */}
-            <div
-              className={cn(
-                'grid transition-[grid-template-rows,opacity] duration-300 ease-in-out',
-                isExpanded
-                  ? 'grid-rows-[1fr] opacity-100'
-                  : 'grid-rows-[0fr] opacity-0',
-              )}
-            >
-              <div className="min-h-0 overflow-hidden">
-                <SpellEffectEditor effect={effect} effectDefinition={definition} />
+            {/* Inline editor panel (only in editable mode) */}
+            {!isViewOnly && (
+              <div
+                className={cn(
+                  'grid transition-[grid-template-rows,opacity] duration-300 ease-in-out',
+                  isExpanded
+                    ? 'grid-rows-[1fr] opacity-100'
+                    : 'grid-rows-[0fr] opacity-0',
+                )}
+              >
+                <div className="min-h-0 overflow-hidden">
+                  <SpellEffectEditor effect={effect} effectDefinition={definition} />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         );
       })}
