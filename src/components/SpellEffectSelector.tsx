@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
-import { TextField, Button, Tooltip } from '@mui/material';
+import { TextField, Button, Chip, Tooltip } from '@mui/material';
 import Image from 'next/image';
 
-import { spellEffectDefinitions, type SpellEffectDefinition } from '@/utils/spellEffectUtils';
+import {
+  schools,
+  spellEffectDefinitions,
+  type School,
+  type SpellEffectDefinition,
+} from '@/utils/spellEffectUtils';
 import { useSpellStore } from '@/data/spellStore';
 
 export default function SpellEffectSelector({
@@ -11,6 +16,7 @@ export default function SpellEffectSelector({
   onEffectSelect: (effect: SpellEffectDefinition) => void;
 }) {
   const [search, setSearch] = useState('');
+  const [schoolFilter, setSchoolFilter] = useState<School | null>(null);
 
   const { addedEffects } = useSpellStore();
 
@@ -18,7 +24,8 @@ export default function SpellEffectSelector({
     const addedSpellEffectIds = addedEffects.map((effect) => effect.id);
     return (
       effect.name.toLowerCase().includes(search.toLowerCase()) &&
-      !addedSpellEffectIds.includes(effect.id)
+      !addedSpellEffectIds.includes(effect.id) &&
+      (schoolFilter === null || effect.school === schoolFilter)
     );
   });
 
@@ -31,11 +38,25 @@ export default function SpellEffectSelector({
         fullWidth
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="mb-4 px-2"
+        className="mb-2 px-2"
       />
 
+      <div className="mb-2 flex flex-wrap gap-1 px-2">
+        {schools.map((school) => (
+          <Chip
+            key={school}
+            label={school}
+            size="small"
+            variant={schoolFilter === school ? 'filled' : 'outlined'}
+            color={schoolFilter === school ? 'primary' : 'default'}
+            onClick={() => setSchoolFilter(schoolFilter === school ? null : school)}
+            className="text-xs"
+          />
+        ))}
+      </div>
+
       <div className="min-h-0 flex-1">
-        <div className="h-full space-y-2 overflow-y-auto rounded-md border border-[#2e2e2e] p-2">
+        <div className="h-full space-y-1 overflow-y-auto rounded-md border border-[#2e2e2e] p-1.5">
           {filteredEffects.map((effect) => (
             <Button
               key={effect.id}
@@ -47,17 +68,17 @@ export default function SpellEffectSelector({
               }}
               className="justify-start text-left normal-case"
             >
-              <div className="flex items-center gap-3 p-1">
+              <div className="flex items-center gap-2 p-0.5">
                 <Tooltip title={effect.school}>
                   <Image
                     src={`/icons/spell-effects/${effect.id}.png`}
                     width={64}
                     height={64}
                     alt={effect.name}
-                    className="h-10 w-10 lg:h-16 lg:w-16"
+                    className="h-7 w-7 lg:h-9 lg:w-9"
                   />
                 </Tooltip>
-                <span className="flex-1 text-lg">{effect.name}</span>
+                <span className="flex-1 text-sm lg:text-base">{effect.name}</span>
               </div>
             </Button>
           ))}
