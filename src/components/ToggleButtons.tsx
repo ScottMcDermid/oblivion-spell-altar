@@ -16,11 +16,12 @@ export default function ToggleButtons({
   onChangeHandler: (a: string) => void;
 }) {
   return (
-    <div className="mx-1 my-4 flex place-items-center justify-center">
+    <div className="mx-1 my-1 flex place-items-center justify-center">
       {label ? <div className="text-lg">{label}</div> : null}
       <ToggleButtonGroup
         aria-labelledby={`${name}`}
         exclusive
+        size="small"
         value={value}
         onChange={(_e: React.MouseEvent<HTMLElement>, selectedValue: string) => {
           if (selectedValue !== null) onChangeHandler(selectedValue);

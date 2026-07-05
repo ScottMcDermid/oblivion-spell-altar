@@ -9,7 +9,7 @@ import {
   type School,
 } from '@/utils/spellEffectUtils';
 import { Tooltip } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import StarIcon from '@mui/icons-material/Star';
 import { cn } from '@/utils/cn';
 import SpellEffectEditor from '@/components/SpellEffectEditor';
 
@@ -60,9 +60,7 @@ export default function ActiveSpellEffects({
       <div
         className={cn(
           'sticky top-0 z-10 grid items-center bg-inherit py-2 pb-2 pr-2 pt-6 text-sm font-semibold shadow-lg',
-          isViewOnly
-            ? 'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]'
-            : 'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_1.5rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_1.5rem]',
+          'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]',
         )}
       >
         {/* Spell effect icon */}
@@ -101,8 +99,7 @@ export default function ActiveSpellEffects({
         {/* Gold */}
         <span className="col-span-0 hidden text-right lg:col-span-1 lg:inline">Gold</span>
 
-        {/* Expand chevron spacer (only in editable mode) */}
-        {!isViewOnly && <span></span>}
+
       </div>
       {effects.length === 0 && (
         <div className="items-center px-2 py-2 text-sm">No Active Effects</div>
@@ -125,11 +122,9 @@ export default function ActiveSpellEffects({
               }
               className={cn(
                 'grid items-center py-2 pr-2 text-sm',
+                'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]',
                 !isViewOnly && 'cursor-pointer hover:bg-[#2f2f2f]',
-                isViewOnly
-                  ? 'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem]'
-                  : 'grid-cols-[2rem_minmax(0,1fr)_4rem_4rem_4rem_4rem_1.5rem] lg:grid-cols-[2rem_minmax(0,1fr)_6rem_4rem_6rem_4rem_6rem_6rem_1.5rem]',
-                maxEffect && effect.id === maxEffect.id
+                !isViewOnly && isExpanded
                   ? 'border-l-4 border-l-yellow-400'
                   : 'pl-1',
               )}
@@ -154,6 +149,14 @@ export default function ActiveSpellEffects({
                     : effect.lockLevel
                       ? `${definition.name} ${effect.lockLevel} Lock`
                       : definition.name}
+                {maxEffect && effect.id === maxEffect.id && (
+                  <Tooltip title="Highest cost — determines spell school">
+                    <StarIcon
+                      fontSize="inherit"
+                      className="ml-1 inline align-text-top text-yellow-400"
+                    />
+                  </Tooltip>
+                )}
               </span>
 
               {/* Magnitude */}
@@ -197,16 +200,7 @@ export default function ActiveSpellEffects({
                 {Intl.NumberFormat().format(getGoldCost(magickaCosts[i]))}
               </span>
 
-              {/* Expand chevron (only in editable mode) */}
-              {!isViewOnly && (
-                <ExpandMoreIcon
-                  fontSize="small"
-                  className={cn(
-                    'transition-transform duration-200',
-                    isExpanded && 'rotate-180',
-                  )}
-                />
-              )}
+
             </div>
 
             {/* Inline editor panel (only in editable mode) */}
