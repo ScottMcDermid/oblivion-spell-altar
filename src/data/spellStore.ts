@@ -7,6 +7,7 @@ type State = {
   addedEffects: SpellEffect[];
   skills: Record<School, number>;
   luck: number;
+  spellName: string;
   version: number;
 };
 
@@ -15,11 +16,13 @@ type Action = {
   removeSpellEffect: (spellEffect: SpellEffect) => void;
   setSkills: (skills: Partial<Record<School, number>>) => void;
   setLuck: (luck: number) => void;
+  setSpellName: (name: string) => void;
   resetSpell: () => void;
   loadSpell: (data: {
     addedEffects: SpellEffect[];
     skills: Record<School, number>;
     luck: number;
+    spellName?: string;
   }) => void;
 };
 
@@ -39,6 +42,7 @@ const useSpellStore = create<SpellStore>()(
           Restoration: 100,
         },
         luck: 50,
+        spellName: '',
         version: 1,
         actions: {
           addSpellEffect: (effect) =>
@@ -57,14 +61,18 @@ const useSpellStore = create<SpellStore>()(
           setLuck: (luck) => {
             set(() => ({ luck }));
           },
+          setSpellName: (spellName) => {
+            set(() => ({ spellName }));
+          },
           resetSpell: () => {
-            set(() => ({ addedEffects: [] }));
+            set(() => ({ addedEffects: [], spellName: '' }));
           },
           loadSpell: (data) => {
             set(() => ({
               addedEffects: data.addedEffects,
               skills: data.skills,
               luck: data.luck,
+              spellName: data.spellName ?? '',
             }));
           },
         },
@@ -80,6 +88,7 @@ const useSpellStore = create<SpellStore>()(
         addedEffects: state.addedEffects,
         skills: state.skills,
         luck: state.luck,
+        spellName: state.spellName,
         version: state.version,
       }),
     },

@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Button, Snackbar, StyledEngineProvider } from '@mui/material';
+import { Button, InputAdornment, Snackbar, StyledEngineProvider, TextField } from '@mui/material';
 import BookIcon from '@mui/icons-material/Book';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShareIcon from '@mui/icons-material/Share';
@@ -139,10 +139,13 @@ function SharedSpellSummary({ sharedSpell }: { sharedSpell: SpellData }) {
   );
 }
 
+const MAX_SPELL_NAME_LENGTH = 64;
+
 export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData }) {
   const {
     addedEffects,
-    actions: { resetSpell, loadSpell },
+    spellName,
+    actions: { resetSpell, loadSpell, setSpellName },
   } = useSpellStore();
   const { copyShareUrl } = useShareSpell();
   const hydrated = useHydrated();
@@ -173,6 +176,7 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
       addedEffects: sharedSpell.effects,
       skills: sharedSpell.skills,
       luck: sharedSpell.luck,
+      spellName: sharedSpell.name,
     });
     setSnackbarMessage('Spell copied to your altar!');
     window.location.href = '/';
@@ -186,7 +190,11 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
         {/* Shared spell banner */}
         {isViewOnly && (
           <div className="sticky top-0 z-30 flex flex-wrap items-center justify-between gap-2 bg-yellow-900/80 px-4 py-2 text-sm text-yellow-200">
-            <span>Viewing a shared spell</span>
+            <span>
+              {sharedSpell?.name
+                ? <>Viewing: <strong>{sharedSpell.name}</strong></>
+                : 'Viewing a shared spell'}
+            </span>
             <div className="flex gap-2">
               <Button
                 size="small"
@@ -263,6 +271,11 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
             )}>
               {isViewOnly ? (
                 <>
+                  {sharedSpell?.name && (
+                    <h2 className="mb-4 text-2xl font-semibold text-gray-100">
+                      {sharedSpell.name}
+                    </h2>
+                  )}
                   <ActiveSpellEffects
                     expandedEffectId={null}
                     onToggleExpand={() => {}}
@@ -281,6 +294,28 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
                     'transition-opacity duration-200',
                     hydrated ? 'opacity-100' : 'h-0 overflow-hidden opacity-0',
                   )}>
+                    <div className="mb-4">
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        placeholder="Unnamed Spell"
+                        label="Spell Name"
+                        value={spellName}
+                        onChange={(e) => setSpellName(e.target.value.slice(0, MAX_SPELL_NAME_LENGTH))}
+                        slotProps={{
+                          input: {
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <span className="text-xs text-gray-500">
+                                  {spellName.length}/{MAX_SPELL_NAME_LENGTH}
+                                </span>
+                              </InputAdornment>
+                            ),
+                          },
+                        }}
+                      />
+                    </div>
                     <ActiveSpellEffects
                       expandedEffectId={expandedEffectId}
                       onToggleExpand={(id) =>

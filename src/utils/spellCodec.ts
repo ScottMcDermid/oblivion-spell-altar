@@ -20,6 +20,10 @@
  *       - if set: 5 bits skill index (0-20)
  *       - 1 bit: has lock level flag
  *       - if set: 3 bits lock level index (0-4)
+ *
+ * Encoding format (v2): same as v1, plus after all effects:
+ *     - 1 bit: has name flag
+ *     - if set: 7 bits name length (0-64), then 7 bits per ASCII char
  */
 
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
@@ -40,7 +44,8 @@ import {
   spellEffectDefinitionById,
 } from '@/utils/spellEffectUtils';
 
-const CODEC_VERSION = 1;
+const CODEC_VERSION = 2;
+const MAX_SPELL_NAME_LENGTH = 64;
 
 const ranges: SpellEffectRange[] = ['Self', 'Touch', 'Target'];
 
@@ -110,6 +115,7 @@ export interface SpellData {
   skills: Record<School, number>;
   luck: number;
   effects: SpellEffect[];
+  name?: string;
 }
 
 // ─── Encode ─────────────────────────────────────────────────────────────────
@@ -181,6 +187,20 @@ export function encodeSpell(data: SpellData): string {
     }
   }
 
+  // Name (v2: 1 flag bit, then 7-bit length + 7 bits per ASCII char)
+  const rawName = (data.name ?? '').slice(0, MAX_SPELL_NAME_LENGTH);
+  // Strip non-printable-ASCII characters (keep 0x20–0x7E)
+  const name = rawName.replace(/[^\x20-\x7E]/g, '');
+  if (name.length > 0) {
+    writer.writeBits(1, 1);
+    writer.writeBits(name.length, 7);
+    for (let i = 0; i < name.length; i++) {
+      writer.writeBits(name.charCodeAt(i), 7);
+    }
+  } else {
+    writer.writeBits(0, 1);
+  }
+
   // Compress
   const bytes = writer.toUint8Array();
   const binaryString = String.fromCharCode.apply(null, Array.from(bytes));
@@ -203,7 +223,7 @@ export function decodeSpell(code: string): SpellData | null {
 
     // Version
     const version = reader.readBits(8);
-    if (version !== 1) return null;
+    if (version !== 1 && version !== 2) return null;
 
     // Skills
     const skills = {} as Record<School, number>;
@@ -285,7 +305,21 @@ export function decodeSpell(code: string): SpellData | null {
       });
     }
 
-    return { skills, luck, effects };
+    // Name (v2 only)
+    let name: string | undefined;
+    if (version === 2) {
+      const hasName = reader.readBits(1);
+      if (hasName) {
+        const nameLength = reader.readBits(7);
+        let decoded = '';
+        for (let i = 0; i < nameLength; i++) {
+          decoded += String.fromCharCode(reader.readBits(7));
+        }
+        name = decoded;
+      }
+    }
+
+    return { skills, luck, effects, ...(name !== undefined && { name }) };
   } catch {
     return null;
   }

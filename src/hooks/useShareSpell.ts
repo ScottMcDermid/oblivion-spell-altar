@@ -12,18 +12,20 @@ export function useShareSpell() {
   const addedEffects = useSpellStore((s) => s.addedEffects);
   const skills = useSpellStore((s) => s.skills);
   const luck = useSpellStore((s) => s.luck);
+  const spellName = useSpellStore((s) => s.spellName);
 
   const getShareUrl = useCallback((): string => {
     const spellData: SpellData = {
       skills,
       luck,
       effects: addedEffects,
+      name: spellName || undefined,
     };
 
     const code = encodeSpell(spellData);
     const origin = typeof window !== 'undefined' ? window.location.origin : '';
     return `${origin}/s/${code}`;
-  }, [addedEffects, skills, luck]);
+  }, [addedEffects, skills, luck, spellName]);
 
   const copyShareUrl = useCallback(async (): Promise<boolean> => {
     try {
