@@ -201,15 +201,16 @@ export default function ActiveSpellEffects({
 
               {/* Magnitude */}
               <span className="text-right">
-                {definition.availableParameters.includes('Magnitude') &&
-                definition.isLevelBasedMagnitude ? (
-                  <span>
-                    {definition.unit} {effect.magnitude}
-                  </span>
-                ) : (
-                  <span>
-                    {effect.magnitude} {definition.unit}
-                  </span>
+                {definition.availableParameters.includes('Magnitude') && (
+                  definition.isLevelBasedMagnitude ? (
+                    <span>
+                      {definition.unit} {effect.magnitude}
+                    </span>
+                  ) : (
+                    <span>
+                      {effect.magnitude} {definition.unit}
+                    </span>
+                  )
                 )}
               </span>
 
