@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Button, InputAdornment, Snackbar, StyledEngineProvider, TextField } from '@mui/material';
+import { AppBar, Box, Button, InputAdornment, Snackbar, StyledEngineProvider, TextField, Toolbar, Typography } from '@mui/material';
 import BookIcon from '@mui/icons-material/Book';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShareIcon from '@mui/icons-material/Share';
@@ -217,44 +217,57 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
           </div>
         )}
 
-        <h1 className="absolute w-screen text-center text-lg">Oblivion Spell Altar</h1>
-        <div className="max-w-screen m-auto flex min-h-screen max-w-6xl flex-col bg-inherit">
-          {/* Nav bar */}
-          <div className="z-20 flex h-12 w-full flex-row justify-between px-2 pt-6 sm:pt-2">
+        <AppBar position="static" sx={{ backgroundColor: 'background.paper' }} elevation={1}>
+          <Toolbar variant="dense" sx={{ gap: 1, overflow: 'hidden' }}>
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{ fontSize: '1rem', fontWeight: 'bold', color: 'secondary.main' }}
+            >
+              Oblivion Spell Altar
+            </Typography>
+
+            <Box sx={{ flex: 1 }} />
+
             {!isViewOnly && (
-              <div className="flex place-items-center">
+              <>
                 <Button
                   variant="contained"
+                  size="small"
                   aria-label="Adjust your skills"
                   onClick={() => setIsCharacterSkillsOpen(true)}
                 >
-                  <BookIcon />
-                  <div className="hidden sm:block">&nbsp;Skills</div>
+                  <BookIcon fontSize="small" />
+                  <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Skills</Box>
                 </Button>
                 {addedEffects.length > 0 && (
                   <>
                     <Button
-                      className="mx-2"
+                      size="small"
                       color="error"
                       aria-label="Reset Spell"
                       onClick={() => setIsConfirmingReset(true)}
                     >
-                      <DeleteIcon />
-                      <div className="hidden sm:block">&nbsp;Reset</div>
+                      <DeleteIcon fontSize="small" />
+                      <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Reset</Box>
                     </Button>
                     <Button
+                      size="small"
                       aria-label="Share Spell"
                       onClick={handleShare}
                     >
-                      <ShareIcon />
-                      <div className="hidden sm:block">&nbsp;Share</div>
+                      <ShareIcon fontSize="small" />
+                      <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Share</Box>
                     </Button>
                   </>
                 )}
-              </div>
+              </>
             )}
-          </div>
+          </Toolbar>
+        </AppBar>
 
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 48px)' }}>
+          <Box sx={{ mx: 'auto', width: '100%', maxWidth: '72rem', px: 2 }}>
           <div className="flex w-full flex-1 flex-col gap-6 bg-inherit pt-4 sm:flex-row">
             {/* Spell effect selector (hidden in view-only mode) */}
             {!isViewOnly && (
@@ -330,7 +343,8 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
               )}
             </div>
           </div>
-        </div>
+          </Box>
+        </Box>
 
         <footer className="relative mt-16 flex w-full flex-col border-t border-gray-700 bg-neutral-900 px-6 py-8 text-sm text-gray-400">
           <div className="mx-auto max-w-4xl space-y-2 text-center">
