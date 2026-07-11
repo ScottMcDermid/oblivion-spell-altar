@@ -1,4 +1,4 @@
-# Oblivion Spell Altar 🧙‍♂️
+# Oblivion Spell Altar
 
 ![Status](https://img.shields.io/badge/Status-Experimental-8A2BE2?style=flat-square)
 ![Made with Next.js](https://img.shields.io/badge/Next.js-powered-black?style=flat-square)
@@ -7,13 +7,13 @@
 Experiment with Oblivion's in-depth spell system and tweak incantations before committing them to Tamriel.  
 Source for https://spells.oblivion.tools
 
-## ✨ Highlights
+## Highlights
 
 - Browse and test spell effects with instant previews.
 - Fine-tune magnitudes, durations, and costs in one place.
 - Share tuned loadouts with fellow mages.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Development
 
@@ -34,7 +34,7 @@ make prod-build
 
 Then visit [http://localhost:3000](http://localhost:3000).
 
-## 🔧 Configuration
+## Configuration
 
 Adjust `.env` to override defaults for local runs.
 
@@ -43,12 +43,12 @@ Adjust `.env` to override defaults for local runs.
 | `CONTAINER_NAME` | Docker container name  |
 | `PORT`           | Port server listens to |
 
-## 🧭 Helpful Commands
+## Helpful Commands
 
 - `make stop` — halt running containers.
 - `make logs` — tail application logs for quick debugging.
 
-## ⚖️ Legal
+## Legal
 
 - **Trademarks** — *The Elder Scrolls*, *Oblivion*, and related marks are the property of Bethesda Softworks/ZeniMax. References here are purely descriptive; this project is independent, non-commercial, and not endorsed by the rights holders.
 - **Copyright** — All original code in this repository is released under the MIT License (see `LICENSE`). External assets retain their original ownership and are either used with permission or under their respective licenses.
