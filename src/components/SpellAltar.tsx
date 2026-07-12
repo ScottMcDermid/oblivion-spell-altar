@@ -5,7 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AppBar, Box, Button, IconButton, InputAdornment, Snackbar, StyledEngineProvider, TextField, Toolbar, Typography } from '@mui/material';
 import BookIcon from '@mui/icons-material/Book';
-import DeleteIcon from '@mui/icons-material/Delete';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ShareIcon from '@mui/icons-material/Share';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import theme from '@/app/theme';
@@ -245,6 +245,7 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
                   size="small"
                   aria-label="Adjust your skills"
                   onClick={() => setIsCharacterSkillsOpen(true)}
+                  sx={{ minWidth: 0, px: { xs: '6px', sm: undefined } }}
                 >
                   <BookIcon fontSize="small" />
                   <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Skills</Box>
@@ -256,14 +257,16 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
                       color="error"
                       aria-label="Reset Spell"
                       onClick={() => setIsConfirmingReset(true)}
+                      sx={{ minWidth: 0, px: { xs: '6px', sm: undefined } }}
                     >
-                      <DeleteIcon fontSize="small" />
+                      <RestartAltIcon fontSize="small" />
                       <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Reset</Box>
                     </Button>
                     <Button
                       size="small"
                       aria-label="Share Spell"
                       onClick={handleShare}
+                      sx={{ minWidth: 0, px: { xs: '6px', sm: undefined } }}
                     >
                       <ShareIcon fontSize="small" />
                       <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Share</Box>
