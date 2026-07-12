@@ -280,7 +280,7 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
           <div className="flex w-full flex-1 flex-col gap-6 bg-inherit pt-4 sm:flex-row">
             {/* Spell effect selector (hidden in view-only mode) */}
             {!isViewOnly && (
-              <div className="flex max-h-80 flex-shrink-0 flex-col sm:sticky sm:top-14 sm:max-h-[calc(100vh-3.5rem)] sm:max-w-80">
+              <div className="flex max-h-80 overflow-y-auto flex-shrink-0 flex-col sm:sticky sm:top-14 sm:overflow-visible sm:max-h-[calc(100vh-3.5rem)] sm:max-w-80">
                 <SpellEffectSelector
                   onEffectAdded={(id) => setExpandedEffectId(id)}
                 />
