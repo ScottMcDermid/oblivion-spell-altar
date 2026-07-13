@@ -240,18 +240,17 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
 
             {!isViewOnly && (
               <>
-                <Button
-                  variant="contained"
-                  size="small"
-                  aria-label="Adjust your skills"
-                  onClick={() => setIsCharacterSkillsOpen(true)}
-                  sx={{ minWidth: 0, px: { xs: '6px', sm: undefined } }}
-                >
-                  <BookIcon fontSize="small" />
-                  <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Skills</Box>
-                </Button>
                 {addedEffects.length > 0 && (
                   <>
+                    <Button
+                      size="small"
+                      aria-label="Share Spell"
+                      onClick={handleShare}
+                      sx={{ minWidth: 0, px: { xs: '6px', sm: undefined } }}
+                    >
+                      <ShareIcon fontSize="small" />
+                      <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Share</Box>
+                    </Button>
                     <Button
                       size="small"
                       color="error"
@@ -262,17 +261,18 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
                       <RestartAltIcon fontSize="small" />
                       <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Reset</Box>
                     </Button>
-                    <Button
-                      size="small"
-                      aria-label="Share Spell"
-                      onClick={handleShare}
-                      sx={{ minWidth: 0, px: { xs: '6px', sm: undefined } }}
-                    >
-                      <ShareIcon fontSize="small" />
-                      <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Share</Box>
-                    </Button>
                   </>
                 )}
+                <Button
+                  variant="contained"
+                  size="small"
+                  aria-label="Adjust your skills"
+                  onClick={() => setIsCharacterSkillsOpen(true)}
+                  sx={{ minWidth: 0, px: { xs: '6px', sm: undefined } }}
+                >
+                  <BookIcon fontSize="small" />
+                  <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' }, ml: 0.5 }}>Skills</Box>
+                </Button>
               </>
             )}
           </Toolbar>
