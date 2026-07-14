@@ -41,7 +41,7 @@ export default function CharacterSkillsDrawer(props: { open: boolean; onClose: (
   }, [luck]);
 
   return (
-    <Drawer anchor="left" open={props.open} onClose={props.onClose}>
+    <Drawer anchor="right" open={props.open} onClose={props.onClose}>
       <div className="w-72 space-y-5 p-4 px-6">
         <h2 className="mb-4 text-lg font-bold">Skills</h2>
 
