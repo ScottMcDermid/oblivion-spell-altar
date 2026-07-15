@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Button, Chip, Tooltip } from '@mui/material';
+import { TextField, Button, Chip, Tooltip, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import Image from 'next/image';
 
 import {
@@ -79,13 +80,24 @@ export default function SpellEffectSelector({
   return (
     <div className="flex h-full flex-col">
       <TextField
-        label="Search Effects"
-        variant="outlined"
-        size="small"
         fullWidth
+        size="small"
+        placeholder="Search effects..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="mb-2 px-2"
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon sx={{ fontSize: 18, color: 'text.primary' }} />
+            </InputAdornment>
+          ),
+        }}
+        sx={{
+          '& .MuiOutlinedInput-root': {
+            fontSize: '0.85rem',
+          },
+        }}
       />
 
       <div className="mb-2 flex flex-wrap gap-1 px-2">
