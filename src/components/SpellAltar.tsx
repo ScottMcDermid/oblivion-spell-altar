@@ -278,14 +278,14 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
           </Toolbar>
         </AppBar>
 
-        <Box sx={{ display: 'flex', height: { xs: 'auto', sm: 'calc(100vh - 48px)' }, overflow: { xs: 'visible', sm: 'hidden' } }}>
+        <Box sx={{ display: 'flex', height: 'calc(100vh - 48px)', overflow: 'hidden' }}>
           {/* Main content area */}
-          <div className="flex min-w-0 flex-1 flex-col bg-inherit transition-all duration-[225ms] ease-[cubic-bezier(0.4,0,0.2,1)]">
-            <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col sm:overflow-hidden bg-inherit">
-              <div className="flex w-full flex-1 flex-col gap-6 bg-inherit pt-4 px-4 sm:flex-row sm:overflow-y-auto">
+          <div className="flex min-w-0 flex-1 flex-col bg-inherit transition-all duration-[225ms] ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden">
+            <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col overflow-hidden bg-inherit">
+              <div className="flex w-full flex-1 flex-col gap-6 bg-inherit pt-4 px-4 overflow-hidden sm:flex-row sm:overflow-y-auto">
                 {/* Spell effect selector (hidden in view-only mode) */}
                 {!isViewOnly && (
-                  <div className="flex max-h-80 overflow-y-auto flex-shrink-0 flex-col sm:sticky sm:top-0 sm:overflow-visible sm:max-h-full sm:max-w-80">
+                  <div className="flex flex-[0_0_55%] min-h-0 flex-shrink-0 flex-col overflow-y-auto sm:flex-none sm:sticky sm:top-0 sm:overflow-visible sm:max-h-full sm:max-w-80">
                     <SpellEffectSelector
                       onEffectAdded={(id) => setExpandedEffectId(id)}
                     />
@@ -293,7 +293,7 @@ export default function SpellAltar({ sharedSpell }: { sharedSpell?: SpellData })
                 )}
 
                 <div className={cn(
-                  'mt-3 flex-1 bg-inherit lg:max-w-full',
+                  'mt-3 flex-1 min-h-0 overflow-y-auto bg-inherit lg:max-w-full',
                   isViewOnly && 'mx-auto max-w-4xl',
                 )}>
                   {isViewOnly ? (
