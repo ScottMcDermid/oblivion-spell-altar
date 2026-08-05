@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Chip, Tooltip, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import Image from 'next/image';
+import SpellEffectIcon from '@/components/SpellEffectIcon';
 
 import {
   getMagickaCost,
@@ -135,10 +135,9 @@ export default function SpellEffectSelector({
             >
               <div className="flex items-center gap-2 p-0.5">
                 <Tooltip title={effect.school}>
-                  <Image
-                    src={`/icons/spell-effects/${effect.id}.png`}
-                    width={64}
-                    height={64}
+                  <SpellEffectIcon
+                    icon={effect.id}
+                    size={28}
                     alt={effect.name}
                     className="h-7 w-7 lg:h-9 lg:w-9"
                   />

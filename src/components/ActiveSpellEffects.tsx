@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSpellStore } from '@/data/spellStore';
-import Image from 'next/image';
+import SpellEffectIcon from '@/components/SpellEffectIcon';
 import {
   applySkillMultiplier,
   getGoldCost,
@@ -171,12 +171,11 @@ export default function ActiveSpellEffects({
             >
               {/* Spell effect icon */}
               <Tooltip title={definition.school}>
-                <Image
-                  width={64}
-                  height={64}
-                  src={`/icons/spell-effects/${effect.id}.png`}
+                <SpellEffectIcon
+                  icon={effect.id}
+                  size={32}
                   alt={definition.name}
-                  className="h-8 w-8 object-contain pl-1 lg:h-8 lg:w-8"
+                  className="h-8 w-8 pl-1"
                 />
               </Tooltip>
 
