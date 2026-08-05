@@ -180,7 +180,7 @@ export default function ActiveSpellEffects({
               </Tooltip>
 
               {/* Spell effect name */}
-              <span className="pl-1 lg:text-lg">
+              <span className="pl-2 lg:text-lg">
                 {effect.attribute
                   ? definition.name.replace(/Attribute/, effect.attribute)
                   : effect.skill
